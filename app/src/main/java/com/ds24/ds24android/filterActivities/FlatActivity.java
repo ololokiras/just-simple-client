@@ -48,7 +48,7 @@ public class FlatActivity extends AppCompatActivity implements FlatAdapter.FlatS
 
     private void doRequest() {
         FlatAsk ask=new FlatAsk();
-        if(DS24Application.filterInstance.houseData.houseId>0) {
+        if(DS24Application.filterInstance.houseData!=null) {
             ask.act= Constants.getFlatList;
             ask.req=new Req();
             ask.req.houseId=DS24Application.filterInstance.houseData.houseId;

@@ -52,7 +52,7 @@ public class HouseActivity extends AppCompatActivity implements HouseAdapter.Hou
         HouseAsk ask=new HouseAsk();
         ask.act= Constants.getHouseList;
         ask.req=new Req();
-        if(DS24Application.filterInstance.contractorData.cntId>0)
+        if(DS24Application.filterInstance.contractorData!=null)
             ask.req.contractorId=DS24Application.filterInstance.contractorData.cntId;
         else
             return;

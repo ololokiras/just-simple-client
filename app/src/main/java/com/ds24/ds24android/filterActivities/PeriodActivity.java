@@ -86,11 +86,6 @@ public class PeriodActivity extends AppCompatActivity implements View.OnClickLis
             setResult(RESULT_OK);
             finish();
         }
-
     }
-
-
-
-
 
 }
