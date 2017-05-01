@@ -35,4 +35,9 @@ public class Functions {
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         baseContext.startActivity(i);
     }
+
+    public static String prepareTreeToSimpleString(String source){
+        String result=source.replace(":","").replace("|","");
+        return result;
+    }
 }

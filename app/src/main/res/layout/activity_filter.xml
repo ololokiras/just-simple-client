@@ -20,10 +20,16 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
         <ImageView
+            android:id="@+id/contractors_next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:src="@drawable/ic_arrow_right" />
+        <TextView
+            android:id="@+id/contractor_selected"
+            android:text="УК ЕРЕМА"
+            android:layout_toLeftOf="@id/contractors_next"
+            style="@style/filter_selected"/>
     </RelativeLayout>
 
     <RelativeLayout
@@ -40,10 +46,15 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
         <ImageView
+            android:id="@+id/street_next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:src="@drawable/ic_arrow_right" />
+        <TextView
+            android:id="@+id/street_selected"
+            android:layout_toLeftOf="@id/street_next"
+            style="@style/filter_selected"/>
     </RelativeLayout>
 
     <RelativeLayout
@@ -60,10 +71,15 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
         <ImageView
+            android:id="@+id/house_next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:src="@drawable/ic_arrow_right" />
+        <TextView
+            android:id="@+id/house_selected"
+            style="@style/filter_selected"
+            android:layout_toLeftOf="@id/house_next"/>
     </RelativeLayout>
 
     <RelativeLayout
@@ -80,10 +96,15 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
         <ImageView
+            android:id="@+id/flat_next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:src="@drawable/ic_arrow_right" />
+        <TextView
+            android:id="@+id/flat_selected"
+            style="@style/filter_selected"
+            android:layout_toLeftOf="@id/flat_next"/>
     </RelativeLayout>
 
     <LinearLayout
@@ -107,10 +128,15 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
         <ImageView
+            android:id="@+id/work_type_next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:src="@drawable/ic_arrow_right" />
+        <TextView
+            android:id="@+id/work_type_selected"
+            style="@style/filter_selected"
+            android:layout_toLeftOf="@id/work_type_next"/>
     </RelativeLayout>
 
     <RelativeLayout
@@ -120,6 +146,7 @@
         android:clickable="true"
         android:padding="8dp">
         <TextView
+            android:id="@+id/reason_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/reason"
@@ -127,10 +154,19 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
         <ImageView
+            android:id="@+id/reason_next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:src="@drawable/ic_arrow_right" />
+        <TextView
+            android:id="@+id/reason_selected"
+            style="@style/filter_selected"
+            android:layout_toLeftOf="@id/reason_next"
+            android:layout_toRightOf="@id/reason_title"
+            android:maxLines="1"
+            android:ellipsize="end"
+            />
     </RelativeLayout>
 
     <LinearLayout
@@ -147,6 +183,7 @@
         android:clickable="true"
         android:padding="8dp">
         <TextView
+            android:id="@+id/responsible_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/responsible"
@@ -154,10 +191,17 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
         <ImageView
+            android:id="@+id/responsible_next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:src="@drawable/ic_arrow_right" />
+        <TextView
+            android:id="@+id/responsible_selected"
+            style="@style/filter_selected"
+            android:layout_toLeftOf="@id/responsible_next"
+            android:layout_toRightOf="@id/responsible_title"
+            android:ellipsize="end"/>
     </RelativeLayout>
 
     <RelativeLayout
@@ -174,10 +218,15 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
         <ImageView
+            android:id="@+id/employee_next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:src="@drawable/ic_arrow_right" />
+        <TextView
+            android:id="@+id/employee_selected"
+            style="@style/filter_selected"
+            android:layout_toLeftOf="@id/employee_next" />
     </RelativeLayout>
 
     <LinearLayout
@@ -201,10 +250,15 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
         <ImageView
+            android:id="@+id/status_next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:src="@drawable/ic_arrow_right" />
+        <TextView
+            android:id="@+id/status_selected"
+            style="@style/filter_selected"
+            android:layout_toLeftOf="@id/status_next"/>
     </RelativeLayout>
 
     <RelativeLayout
@@ -221,10 +275,15 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
         <ImageView
+            android:id="@+id/request_type_next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:src="@drawable/ic_arrow_right" />
+        <TextView
+            android:id="@+id/request_type_selected"
+            style="@style/filter_selected"
+            android:layout_toLeftOf="@id/request_type_next"/>
     </RelativeLayout>
 
     <RelativeLayout
@@ -241,10 +300,15 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
         <ImageView
+            android:id="@+id/period_next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:src="@drawable/ic_arrow_right" />
+            android:src="@drawable/ic_arrow_right"/>
+        <TextView
+            android:id="@+id/period_selected"
+            style="@style/filter_selected"
+            android:layout_toLeftOf="@id/period_next"/>
     </RelativeLayout>
 
 
