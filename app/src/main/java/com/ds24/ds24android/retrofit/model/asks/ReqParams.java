@@ -40,7 +40,7 @@ public class ReqParams {
     public Integer respId;
     @SerializedName("status_id")
     @Expose
-    public Integer statusId;
+    public String statusId;
     @SerializedName("rtype_id")
     @Expose
     public Integer rtypeId;

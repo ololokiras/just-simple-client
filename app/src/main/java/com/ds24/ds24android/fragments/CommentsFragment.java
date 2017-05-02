@@ -28,6 +28,8 @@ import com.ds24.ds24android.retrofit.model.comments.Req;
 import com.ds24.ds24android.utils.Functions;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -71,7 +73,9 @@ public class CommentsFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView=inflater.inflate(R.layout.fragment_comments, container, false);
         recyclerView=(RecyclerView)rootView.findViewById(R.id.comments_recycler);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
+        LinearLayoutManager layoutManager=new LinearLayoutManager(getActivity());
+        layoutManager.setReverseLayout(true);
+        recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
 
         swipeRefreshLayout=(SwipeRefreshLayout)rootView.findViewById(R.id.swipe_comments);
@@ -144,6 +148,7 @@ public class CommentsFragment extends Fragment {
     }
 
     private void fillContent(ArrayList<CommentsData> data) {
+      //  Collections.reverse(data);
         CommentAdapter commentAdapter=new CommentAdapter(data,getActivity().getApplication());
         recyclerView.setAdapter(commentAdapter);
         swipeRefreshLayout.setRefreshing(false);

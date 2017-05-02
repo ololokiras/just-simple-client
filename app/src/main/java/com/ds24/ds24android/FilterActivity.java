@@ -3,6 +3,7 @@ package com.ds24.ds24android;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -37,6 +38,21 @@ public class FilterActivity extends AppCompatActivity {
     TextView statusSelected;
     TextView requestTypeSelected;
     TextView periodSelected;
+
+    ImageView contractorsDelete;
+    ImageView streetDelete;
+    ImageView houseDelete;
+    ImageView flatDelete;
+    ImageView workTypeDelete;
+    ImageView reasonDelete;
+    ImageView responsibleDelete;
+    ImageView employeeDelete;
+    ImageView statusDelete;
+    ImageView requestTypeDelete;
+    ImageView periodDelete;
+
+
+    RelativeLayout clearFilterLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +97,9 @@ public class FilterActivity extends AppCompatActivity {
         RelativeLayout periodLayout=(RelativeLayout)findViewById(R.id.period_layout);
         periodLayout.setOnClickListener(v->periodFilter());
 
+        clearFilterLayout=(RelativeLayout)findViewById(R.id.clear_filter_layout);
+        clearFilterLayout.setOnClickListener(v->clearFilter());
+
         contractorSelected=(TextView)findViewById(R.id.contractor_selected);
         streetSelected=(TextView)findViewById(R.id.street_selected);
         houseSelected=(TextView)findViewById(R.id.house_selected);
@@ -93,6 +112,93 @@ public class FilterActivity extends AppCompatActivity {
         requestTypeSelected=(TextView)findViewById(R.id.request_type_selected);
         periodSelected=(TextView)findViewById(R.id.period_selected);
 
+        contractorsDelete=(ImageView)findViewById(R.id.contractors_delete);
+        contractorsDelete.setOnClickListener(v->contractorsClear());
+
+        streetDelete=(ImageView)findViewById(R.id.street_delete);
+        streetDelete.setOnClickListener(v->streetClear());
+
+        houseDelete=(ImageView)findViewById(R.id.house_delete);
+        houseDelete.setOnClickListener(v -> houseClear());
+
+        flatDelete=(ImageView)findViewById(R.id.flat_delete);
+        flatDelete.setOnClickListener(v -> flatClear());
+
+        workTypeDelete=(ImageView)findViewById(R.id.work_type_delete);
+        workTypeDelete.setOnClickListener(v -> workTypeClear());
+
+        reasonDelete=(ImageView)findViewById(R.id.reason_delete);
+        reasonDelete.setOnClickListener(v -> reasonClear());
+
+        responsibleDelete=(ImageView)findViewById(R.id.responsible_delete);
+        responsibleDelete.setOnClickListener(v -> responsibleClear());
+
+        employeeDelete=(ImageView)findViewById(R.id.employee_delete);
+        employeeDelete.setOnClickListener(v -> employeeClear());
+
+        statusDelete=(ImageView)findViewById(R.id.status_delete);
+        statusDelete.setOnClickListener(v -> statusClear());
+
+        requestTypeDelete=(ImageView)findViewById(R.id.request_type_delete);
+        requestTypeDelete.setOnClickListener(v -> requestTypeClear());
+
+        periodDelete=(ImageView)findViewById(R.id.period_delete);
+        reasonDelete.setOnClickListener(v -> periodClear());
+    }
+
+    private void contractorsClear(){
+        DS24Application.clearContractor();
+        reloadThisActivity();
+    }
+
+    private void streetClear(){
+        DS24Application.clearStreet();
+        reloadThisActivity();
+    }
+
+    private void houseClear(){
+        DS24Application.clearHouse();
+        reloadThisActivity();
+    }
+
+    private void flatClear(){
+        DS24Application.clearFlat();
+        reloadThisActivity();
+    }
+
+    private void workTypeClear(){
+        DS24Application.clearWorkType();
+        reloadThisActivity();
+    }
+
+    private void reasonClear(){
+        DS24Application.clearReason();
+        reloadThisActivity();
+    }
+
+    private void responsibleClear(){
+        DS24Application.clearResponsible();
+        reloadThisActivity();
+    }
+
+    private void employeeClear(){
+        DS24Application.clearEmployee();
+        reloadThisActivity();
+    }
+
+    private void statusClear(){
+        DS24Application.clearStatus();
+        reloadThisActivity();
+    }
+
+    private void requestTypeClear(){
+        DS24Application.clearRequestType();
+        reloadThisActivity();
+    }
+
+    private void periodClear(){
+        DS24Application.clearPeriod();
+        reloadThisActivity();
     }
 
     private void contractorsFilter() {
@@ -228,10 +334,20 @@ public class FilterActivity extends AppCompatActivity {
         periodSelected.setText(dateString);
     }
 
+    private void clearFilter(){
+        DS24Application.clearFilter();
+        reloadThisActivity();
+    }
+
     @Override
     protected void onResume(){
         super.onResume();
         fillSelectedFields();
+    }
+
+    private void reloadThisActivity(){
+        finish();
+        startActivity(getIntent());
     }
 
 }

@@ -40,7 +40,7 @@
 
     <string name="not_selected">Не выбрано</string>
     <string name="select_street">Выберите улицу</string>
-    <string name="select_house">Выберите доом</string>
+    <string name="select_house">Выберите дом</string>
     <string name="select_work_type">Выберите тип работ</string>
 
     <string name="detail">Детализация</string>

@@ -54,8 +54,7 @@ public class HouseActivity extends AppCompatActivity implements HouseAdapter.Hou
         ask.req=new Req();
         if(DS24Application.filterInstance.contractorData!=null)
             ask.req.contractorId=DS24Application.filterInstance.contractorData.cntId;
-        else
-            return;
+
         if(TextUtils.isEmpty(DS24Application.filterInstance.streetData.street))
             return;
         else
@@ -83,10 +82,12 @@ public class HouseActivity extends AppCompatActivity implements HouseAdapter.Hou
     private void fillRecycler(ArrayList<HouseResponseData> data) {
         adapter=new HouseAdapter(this,data,this);
         houseRecycler.setAdapter(adapter);
+
     }
 
     @Override
     public void onHouseSelect(HouseResponseData houseData) {
+        DS24Application.clearHouse();
         DS24Application.getFilterInstance().houseData=houseData;
         setResult(RESULT_OK);
         finish();

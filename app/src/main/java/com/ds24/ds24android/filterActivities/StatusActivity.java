@@ -35,6 +35,7 @@ public class StatusActivity extends AppCompatActivity implements StatusAdapter.S
         serverAPI=ServerAPI.retrofit.create(ServerAPI.class);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         initUI();
+        doRequest();
     }
 
     private void initUI() {
@@ -42,7 +43,6 @@ public class StatusActivity extends AppCompatActivity implements StatusAdapter.S
         LinearLayoutManager layoutManager=new LinearLayoutManager(this);
         statusRecycler.setLayoutManager(layoutManager);
         statusRecycler.setHasFixedSize(true);
-        doRequest();
     }
 
     private void doRequest() {
@@ -56,9 +56,8 @@ public class StatusActivity extends AppCompatActivity implements StatusAdapter.S
             public void onResponse(Call<StatusResponse> call, Response<StatusResponse> response) {
                 if(response.isSuccessful())
                     if(response.body().ok)
-                        if(response.body().token){
+                        if(response.body().token)
                             fillRecycler(response.body().data);
-                        }
             }
 
             @Override

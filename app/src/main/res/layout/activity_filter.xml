@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.ds24.ds24android.FilterActivity">
+    tools:context="com.ds24.ds24android.FilterActivity"
+    android:padding="8dp">
 
     <RelativeLayout
         android:id="@+id/contractors_layout"
@@ -20,11 +21,18 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
         <ImageView
+            android:id="@+id/contractors_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_delete"
+            android:layout_alignParentRight="true"/>
+        <ImageView
             android:id="@+id/contractors_next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:src="@drawable/ic_arrow_right" />
+            android:layout_toLeftOf="@id/contractors_delete"
+            android:src="@drawable/ic_arrow_right"
+            android:layout_marginRight="8dp"/>
         <TextView
             android:id="@+id/contractor_selected"
             android:text="УК ЕРЕМА"
@@ -46,11 +54,18 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
         <ImageView
+            android:id="@+id/street_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_delete"
+            android:layout_alignParentRight="true"/>
+        <ImageView
             android:id="@+id/street_next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:src="@drawable/ic_arrow_right" />
+            android:layout_toLeftOf="@id/street_delete"
+            android:src="@drawable/ic_arrow_right"
+            android:layout_marginRight="8dp"/>
         <TextView
             android:id="@+id/street_selected"
             android:layout_toLeftOf="@id/street_next"
@@ -70,12 +85,20 @@
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
+
+        <ImageView
+            android:id="@+id/house_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_delete"
+            android:layout_alignParentRight="true"/>
         <ImageView
             android:id="@+id/house_next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:src="@drawable/ic_arrow_right" />
+            android:layout_toLeftOf="@id/house_delete"
+            android:src="@drawable/ic_arrow_right"
+            android:layout_marginRight="8dp"/>
         <TextView
             android:id="@+id/house_selected"
             style="@style/filter_selected"
@@ -96,10 +119,17 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
         <ImageView
+            android:id="@+id/flat_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_delete"
+            android:layout_alignParentRight="true"/>
+        <ImageView
             android:id="@+id/flat_next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_toLeftOf="@id/flat_delete"
+            android:layout_marginRight="8dp"
             android:src="@drawable/ic_arrow_right" />
         <TextView
             android:id="@+id/flat_selected"
@@ -128,10 +158,17 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
         <ImageView
+            android:id="@+id/work_type_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_delete"
+            android:layout_alignParentRight="true"/>
+        <ImageView
             android:id="@+id/work_type_next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_toLeftOf="@id/work_type_delete"
+            android:layout_marginRight="8dp"
             android:src="@drawable/ic_arrow_right" />
         <TextView
             android:id="@+id/work_type_selected"
@@ -154,10 +191,17 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
         <ImageView
+            android:id="@+id/reason_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_delete"
+            android:layout_alignParentRight="true"/>
+        <ImageView
             android:id="@+id/reason_next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_toLeftOf="@id/reason_delete"
+            android:layout_marginRight="8dp"
             android:src="@drawable/ic_arrow_right" />
         <TextView
             android:id="@+id/reason_selected"
@@ -191,10 +235,17 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
         <ImageView
-            android:id="@+id/responsible_next"
+            android:id="@+id/responsible_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:src="@drawable/ic_delete" />
+        <ImageView
+            android:id="@+id/responsible_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="8dp"
+            android:layout_toLeftOf="@id/responsible_delete"
             android:src="@drawable/ic_arrow_right" />
         <TextView
             android:id="@+id/responsible_selected"
@@ -218,10 +269,17 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
         <ImageView
-            android:id="@+id/employee_next"
+            android:id="@+id/employee_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:src="@drawable/ic_delete" />
+        <ImageView
+            android:id="@+id/employee_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/employee_delete"
+            android:layout_marginRight="8dp"
             android:src="@drawable/ic_arrow_right" />
         <TextView
             android:id="@+id/employee_selected"
@@ -250,10 +308,17 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
         <ImageView
-            android:id="@+id/status_next"
+            android:id="@+id/status_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:src="@drawable/ic_delete" />
+        <ImageView
+            android:id="@+id/status_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/status_delete"
+            android:layout_marginRight="8dp"
             android:src="@drawable/ic_arrow_right" />
         <TextView
             android:id="@+id/status_selected"
@@ -275,10 +340,17 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
         <ImageView
-            android:id="@+id/request_type_next"
+            android:id="@+id/request_type_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:src="@drawable/ic_delete" />
+        <ImageView
+            android:id="@+id/request_type_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/request_type_delete"
+            android:layout_marginRight="8dp"
             android:src="@drawable/ic_arrow_right" />
         <TextView
             android:id="@+id/request_type_selected"
@@ -300,15 +372,33 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
         <ImageView
-            android:id="@+id/period_next"
+            android:id="@+id/period_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:src="@drawable/ic_delete" />
+        <ImageView
+            android:id="@+id/period_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/period_delete"
+            android:layout_marginRight="8dp"
             android:src="@drawable/ic_arrow_right"/>
         <TextView
             android:id="@+id/period_selected"
             style="@style/filter_selected"
             android:layout_toLeftOf="@id/period_next"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/clear_filter_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@drawable/ic_delete"/>
     </RelativeLayout>
 
 

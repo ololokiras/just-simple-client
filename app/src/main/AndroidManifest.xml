@@ -76,10 +76,17 @@
             android:name=".filterActivities.PeriodActivity"
             android:label="@string/period"
             android:parentActivityName=".FilterActivity" />
-        <activity android:name=".DetailedActivity" />
-        <activity android:name=".StatusChangeActivity" />
-        <activity android:name=".ResponsibleChangeActivity" />
-        <activity android:name=".EmployeeChangeActivity"></activity>
+        <activity android:name=".DetailedActivity"
+            android:parentActivityName=".MainActivity"/>
+        <activity android:name=".StatusChangeActivity"
+            android:label="@string/status"
+            android:parentActivityName=".DetailedActivity"/>
+        <activity android:name=".ResponsibleChangeActivity"
+            android:label="@string/responsible"
+            android:parentActivityName=".DetailedActivity"/>
+        <activity android:name=".EmployeeChangeActivity"
+            android:label="@string/employee"
+            android:parentActivityName=".DetailedActivity"/>
     </application>
 
 </manifest>

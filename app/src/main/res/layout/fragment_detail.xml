@@ -2,12 +2,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ds24.ds24android.fragments.DetailFragment">
+    tools:context="com.ds24.ds24android.fragments.DetailFragment"
+    android:padding="8dp"
+    >
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/swipe_detail">
+        android:id="@+id/swipe_detail"
+        >
         <RelativeLayout
             android:id="@+id/parent_detail_layout"
             android:layout_width="match_parent"
@@ -25,7 +28,8 @@
                 android:text="@string/aon_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/address"/>
+                android:layout_below="@id/address"
+                android:layout_marginTop="8dp"/>
             <TextView
                 android:id="@+id/aon_value"
                 android:layout_width="wrap_content"
@@ -38,7 +42,8 @@
                 android:text="@string/cont_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/aon_desc"/>
+                android:layout_below="@id/aon_desc"
+                android:layout_marginTop="8dp"/>
             <TextView
                 android:id="@+id/cont_phone_value"
                 android:layout_width="wrap_content"
@@ -50,31 +55,36 @@
                 android:id="@+id/note"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/cont_phone_desc"/>
+                android:layout_below="@id/cont_phone_desc"
+                android:layout_marginTop="8dp"/>
 
             <TextView
                 android:id="@+id/work_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/note"/>
+                android:layout_below="@id/note"
+                android:layout_marginTop="8dp"/>
 
             <TextView
                 android:id="@+id/created_ref"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/work_type"/>
+                android:layout_below="@id/work_type"
+                android:layout_marginTop="8dp"/>
 
             <TextView
                 android:id="@+id/status_desc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/status"
-                android:layout_below="@id/created_ref"/>
+                android:layout_below="@id/created_ref"
+                android:layout_marginTop="8dp"/>
             <RelativeLayout
                 android:id="@+id/status_change_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/status_desc">
+                android:layout_below="@id/status_desc"
+                android:layout_marginTop="8dp">
                 <TextView
                     android:id="@+id/status_value"
                     android:layout_width="wrap_content"
@@ -95,12 +105,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/employee"
-                android:layout_below="@id/status_change_layout"/>
+                android:layout_below="@id/status_change_layout"
+                android:layout_marginTop="8dp"/>
             <RelativeLayout
                 android:id="@+id/employee_change_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/employee_desc">
+                android:layout_below="@id/employee_desc"
+                android:layout_marginTop="8dp">
                 <TextView
                     android:id="@+id/employee_value"
                     android:layout_width="wrap_content"
@@ -123,12 +135,13 @@
                 android:layout_height="wrap_content"
                 android:text="@string/responsible"
                 android:layout_below="@id/employee_change_layout"
-                />
+                android:layout_marginTop="8dp"/>
             <RelativeLayout
                 android:id="@+id/responsible_change_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/responsible_desc">
+                android:layout_below="@id/responsible_desc"
+                android:layout_marginTop="8dp">
                 <TextView
                     android:id="@+id/responsible_value"
                     android:layout_width="wrap_content"
@@ -149,12 +162,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/deadline"
-                android:layout_below="@id/responsible_change_layout"/>
+                android:layout_below="@id/responsible_change_layout"
+                android:layout_marginTop="8dp"/>
             <RelativeLayout
                 android:id="@+id/deadline_change_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/deadline_desc">
+                android:layout_below="@id/deadline_desc"
+                android:layout_marginTop="8dp">
                 <TextView
                     android:id="@+id/deadline_value"
                     android:layout_width="wrap_content"

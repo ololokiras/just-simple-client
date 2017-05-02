@@ -13,5 +13,5 @@ public class StatusResponseData {
     public String status;
     @SerializedName("status_id")
     @Expose
-    public int statusId;
+    public String statusId;
 }

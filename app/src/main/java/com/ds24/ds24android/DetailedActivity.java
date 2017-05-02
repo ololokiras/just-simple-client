@@ -20,6 +20,7 @@ public class DetailedActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detailed);
         requestId=getIntent().getIntExtra(Constants.requestId,-1);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         if(requestId>0)
             initUI();
     }
