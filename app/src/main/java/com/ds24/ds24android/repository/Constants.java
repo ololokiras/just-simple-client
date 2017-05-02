@@ -21,6 +21,9 @@ public class Constants {
     public static int loginActivityKey=1;
     public static int contractorsActivityKey=11;
     public static int streetActivityKey=12;
+    public static int statusChangeActivityKey=21;
+    public static int responsibleChangeActivityKey=22;
+    public static int employeeChangeActivityKey=23;
 
     //actions string list
     public static String getRequestListAction="list";
@@ -34,11 +37,20 @@ public class Constants {
     public static String getEmployeeList="emp_list";
     public static String getStatusTreeList="status_tree_list";
     public static String getRequestTypeList="reqtype_list";
+    public static String getCommentList="comment_list";
+    public static String setUpdateRequest="update";
+    public static String getUpdatesList="activity_list";
+    public static String getRequestDetail="detail";
+    public static String getStatusList="status_list";
 
 
     //intent keys
     public static String contractors="contractors";
-    public static String streets="streets";
+    public static String requestId="requestId";
+    public static String statusChange="statusChange";
+    public static String responsibleChange="responsibleChange";
+    public static String employeeChange="employeeChange";
+
 
     public static int paginationSize=10;
 }

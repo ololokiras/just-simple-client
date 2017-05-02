@@ -1,4 +1,4 @@
-package com.ds24.ds24android.retrofit.model.status;
+package com.ds24.ds24android.retrofit.model.statusTree;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -13,5 +13,5 @@ public class StatusResponseData {
     public String status;
     @SerializedName("status_id")
     @Expose
-    public String statusId;
+    public int statusId;
 }

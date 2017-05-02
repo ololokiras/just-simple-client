@@ -39,43 +39,47 @@
         <activity
             android:name=".filterActivities.StreetActivity"
             android:label="@string/street"
-            android:parentActivityName=".FilterActivity"/>
+            android:parentActivityName=".FilterActivity" />
         <activity
             android:name=".filterActivities.HouseActivity"
             android:label="@string/house"
-            android:parentActivityName=".FilterActivity"/>
+            android:parentActivityName=".FilterActivity" />
         <activity
             android:name=".filterActivities.FlatActivity"
             android:label="@string/flat"
-            android:parentActivityName=".FilterActivity"/>
+            android:parentActivityName=".FilterActivity" />
         <activity
             android:name=".filterActivities.WorkTypeActivity"
             android:label="@string/work_type"
-            android:parentActivityName=".FilterActivity"/>
+            android:parentActivityName=".FilterActivity" />
         <activity
             android:name=".filterActivities.ReasonActivity"
             android:label="@string/reason"
-            android:parentActivityName=".FilterActivity"/>
+            android:parentActivityName=".FilterActivity" />
         <activity
             android:name=".filterActivities.ResponsibleActivity"
             android:label="@string/responsible"
-            android:parentActivityName=".FilterActivity"/>
+            android:parentActivityName=".FilterActivity" />
         <activity
             android:name=".filterActivities.EmployeeActivity"
             android:label="@string/employee"
-            android:parentActivityName=".FilterActivity"/>
+            android:parentActivityName=".FilterActivity" />
         <activity
             android:name=".filterActivities.StatusActivity"
             android:label="@string/status"
-            android:parentActivityName=".FilterActivity"/>
+            android:parentActivityName=".FilterActivity" />
         <activity
             android:name=".filterActivities.RequestTypeActivity"
             android:label="@string/request_type"
-            android:parentActivityName=".FilterActivity"/>
+            android:parentActivityName=".FilterActivity" />
         <activity
             android:name=".filterActivities.PeriodActivity"
             android:label="@string/period"
-            android:parentActivityName=".FilterActivity"/>
+            android:parentActivityName=".FilterActivity" />
+        <activity android:name=".DetailedActivity" />
+        <activity android:name=".StatusChangeActivity" />
+        <activity android:name=".ResponsibleChangeActivity" />
+        <activity android:name=".EmployeeChangeActivity"></activity>
     </application>
 
 </manifest>

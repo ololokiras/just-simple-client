@@ -7,7 +7,7 @@ import com.ds24.ds24android.retrofit.model.house.HouseResponseData;
 import com.ds24.ds24android.retrofit.model.reason.ReasonResponseData;
 import com.ds24.ds24android.retrofit.model.requestType.RequestTypeResponseData;
 import com.ds24.ds24android.retrofit.model.responsible.ResponsibleResponseData;
-import com.ds24.ds24android.retrofit.model.status.StatusResponseData;
+import com.ds24.ds24android.retrofit.model.statusTree.StatusResponseData;
 import com.ds24.ds24android.retrofit.model.streets.StreetResponseData;
 import com.ds24.ds24android.retrofit.model.workType.WorkTypeResponseData;
 

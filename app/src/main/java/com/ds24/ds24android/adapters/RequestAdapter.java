@@ -1,13 +1,16 @@
 package com.ds24.ds24android.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.ds24.ds24android.DetailedActivity;
 import com.ds24.ds24android.R;
+import com.ds24.ds24android.repository.Constants;
 import com.ds24.ds24android.retrofit.model.request.DataRequest;
 
 import java.util.ArrayList;
@@ -59,7 +62,14 @@ public class RequestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         if(getItemViewType(position)==TYPE_REQUEST){
             ((RequestHolder) holder).setData(dataRequests.get(position));
+            holder.itemView.setOnClickListener(v->startRequestDetail(position));
         }
+    }
+
+    private void startRequestDetail(int position){
+        Intent detailRequestionIntent=new Intent(ctx, DetailedActivity.class);
+        detailRequestionIntent.putExtra(Constants.requestId,dataRequests.get(position).requestId);
+        ctx.startActivity(detailRequestionIntent);
     }
 
     @Override

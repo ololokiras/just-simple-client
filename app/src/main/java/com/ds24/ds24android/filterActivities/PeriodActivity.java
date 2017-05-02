@@ -43,7 +43,7 @@ public class PeriodActivity extends AppCompatActivity implements View.OnClickLis
         endDate =(TextView) findViewById(R.id.end_text);
         startDate.setOnClickListener(this);
         endDate.setOnClickListener(this);
-        dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
+        dateFormatter = new SimpleDateFormat("dd.MM.yyyy", Locale.US);
         Calendar newCalendar = Calendar.getInstance();
         Calendar beforeMonth=newCalendar;
         beforeMonth.add(Calendar.MONTH,-1);

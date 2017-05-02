@@ -5,6 +5,10 @@ package com.ds24.ds24android.retrofit;
 import com.ds24.ds24android.repository.Constants;
 import com.ds24.ds24android.retrofit.model.asks.RequestionAsk;
 import com.ds24.ds24android.retrofit.model.asks.SimpleAsk;
+import com.ds24.ds24android.retrofit.model.commentUpdate.RequestUpdate;
+import com.ds24.ds24android.retrofit.model.commentUpdate.UpdateAskInnerComment;
+import com.ds24.ds24android.retrofit.model.comments.CommentAsk;
+import com.ds24.ds24android.retrofit.model.comments.Comments;
 import com.ds24.ds24android.retrofit.model.contractors.ContractorResponse;
 import com.ds24.ds24android.retrofit.model.employee.EmployeeResponse;
 import com.ds24.ds24android.retrofit.model.flat.FlatAsk;
@@ -16,11 +20,19 @@ import com.ds24.ds24android.retrofit.model.login.LoginResponse;
 import com.ds24.ds24android.retrofit.model.reason.ReasonAsk;
 import com.ds24.ds24android.retrofit.model.reason.ReasonResponse;
 import com.ds24.ds24android.retrofit.model.request.Requestion;
+import com.ds24.ds24android.retrofit.model.requestDetail.RequestDetail;
+import com.ds24.ds24android.retrofit.model.requestDetail.RequestDetailAsk;
 import com.ds24.ds24android.retrofit.model.requestType.RequestTypeResponse;
 import com.ds24.ds24android.retrofit.model.responsible.ResponsibleResponse;
-import com.ds24.ds24android.retrofit.model.status.StatusResponse;
+import com.ds24.ds24android.retrofit.model.status.Status;
+import com.ds24.ds24android.retrofit.model.statusTree.StatusResponse;
 import com.ds24.ds24android.retrofit.model.streets.StreetCustomAsk;
 import com.ds24.ds24android.retrofit.model.streets.StreetResponse;
+import com.ds24.ds24android.retrofit.model.updateDeadline.DeadlineUpdateAsk;
+import com.ds24.ds24android.retrofit.model.updateEmployee.EmployeeUpdateAsk;
+import com.ds24.ds24android.retrofit.model.updateResponsible.ResponsibleUpdateAsk;
+import com.ds24.ds24android.retrofit.model.updateStatus.StatusUpdateAsk;
+import com.ds24.ds24android.retrofit.model.updates.Updates;
 import com.ds24.ds24android.retrofit.model.workType.WorkTypeResponse;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
@@ -133,4 +145,56 @@ public interface ServerAPI {
             @Header("authorization") String token,
             @Body SimpleAsk ask);
 
+    //получение списка комментов
+    @POST("/request")
+    Call<Comments> getRequestComment(
+            @Header("authorization") String token,
+            @Body CommentAsk commentsAsk);
+
+    @POST("/request")
+    Call<RequestUpdate> updateCommet(
+            @Header("authorization") String token,
+            @Body UpdateAskInnerComment updateAsk);
+
+    //запрос на список изменений в заявке
+    @POST("/request")
+    Call<Updates> getRequestChanges(
+            @Header("authorization") String token,
+            @Body CommentAsk changesAsk);
+
+    //запрос на детализацию заявки
+    @POST("/request")
+    Call<RequestDetail> getRequestDetail(
+            @Header("authorization") String token,
+            @Body RequestDetailAsk requestDetailAsk);
+
+    //запрос на список статусов
+    @POST("/reference")
+    Call<Status> getStatusList(
+            @Header("authorization") String token,
+            @Body SimpleAsk statusAsk);
+
+    //запрос на update заявки
+    @POST("/request")
+    Call<RequestUpdate> statusUpdateRequest(
+            @Header("authorization") String token,
+            @Body StatusUpdateAsk updateAsk);
+
+    //обновление ответсвенного
+    @POST("/request")
+    Call<RequestUpdate> responsibleUpdateRequest(
+            @Header("authorization") String token,
+            @Body ResponsibleUpdateAsk updateAsk);
+
+    //обновление исполнителя
+    @POST("/request")
+    Call<RequestUpdate> employeeUpdateRequest(
+            @Header("authorization") String token,
+            @Body EmployeeUpdateAsk updateAsk);
+
+    //обновление дедлайна
+    @POST("/request")
+    Call<RequestUpdate> deadlineUpdateRequest(
+            @Header("authorization") String token,
+            @Body DeadlineUpdateAsk updateAsk);
 }

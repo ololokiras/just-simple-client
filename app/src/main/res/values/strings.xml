@@ -43,4 +43,16 @@
     <string name="select_house">Выберите доом</string>
     <string name="select_work_type">Выберите тип работ</string>
 
+    <string name="detail">Детализация</string>
+    <string name="comments">Комментарии</string>
+    <string name="updates">Обновления</string>
+
+    <string name="write_your_comment">Напишите комментарий</string>
+    <string name="send">Отправить</string>
+
+    <string name="aon_number">Звонил с: </string>
+    <string name="cont_number">Телефон для связи: </string>
+    <string name="deadline">Срок исполнения</string>
+
+
 </resources>

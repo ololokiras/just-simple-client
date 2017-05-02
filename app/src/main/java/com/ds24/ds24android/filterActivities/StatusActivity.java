@@ -12,8 +12,8 @@ import com.ds24.ds24android.repository.Constants;
 import com.ds24.ds24android.repository.PreferencesBuffer;
 import com.ds24.ds24android.retrofit.ServerAPI;
 import com.ds24.ds24android.retrofit.model.asks.SimpleAsk;
-import com.ds24.ds24android.retrofit.model.status.StatusResponse;
-import com.ds24.ds24android.retrofit.model.status.StatusResponseData;
+import com.ds24.ds24android.retrofit.model.statusTree.StatusResponse;
+import com.ds24.ds24android.retrofit.model.statusTree.StatusResponseData;
 import com.ds24.ds24android.utils.Functions;
 
 import java.util.ArrayList;
