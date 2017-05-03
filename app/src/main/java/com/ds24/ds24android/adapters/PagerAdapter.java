@@ -27,6 +27,8 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
         bundle.putInt(Constants.requestId, requestId);
     }
 
+
+
     @Override
     public Fragment getItem(int position) {
         switch (position) {

@@ -52,5 +52,5 @@ public class Constants {
     public static String employeeChange="employeeChange";
 
 
-    public static int paginationSize=10;
+    public static int paginationSize=50;
 }

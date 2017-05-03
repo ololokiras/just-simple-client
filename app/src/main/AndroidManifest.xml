@@ -76,8 +76,7 @@
             android:name=".filterActivities.PeriodActivity"
             android:label="@string/period"
             android:parentActivityName=".FilterActivity" />
-        <activity android:name=".DetailedActivity"
-            android:parentActivityName=".MainActivity"/>
+        <activity android:name=".DetailedActivity"/>
         <activity android:name=".StatusChangeActivity"
             android:label="@string/status"
             android:parentActivityName=".DetailedActivity"/>

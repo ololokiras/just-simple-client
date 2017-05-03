@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
 
 import com.ds24.ds24android.adapters.filterAdapters.EmployeeAdapter;
 import com.ds24.ds24android.repository.Constants;
@@ -40,7 +41,9 @@ public class EmployeeChangeActivity extends AppCompatActivity implements Employe
         employeeChangeRecycler=(RecyclerView)findViewById(R.id.employee_change_recycler);
         employeeChangeRecycler.setHasFixedSize(true);
         employeeChangeRecycler.setLayoutManager(new LinearLayoutManager(this));
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
+
 
     private void doRequest() {
         SimpleAsk ask=new SimpleAsk();
@@ -76,6 +79,20 @@ public class EmployeeChangeActivity extends AppCompatActivity implements Employe
         bundle.putSerializable(Constants.employeeChange,employeeData);
         intent.putExtras(bundle);
         setResult(RESULT_OK,intent);
+        finish();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        if (menuItem.getItemId() == android.R.id.home) {
+            super.onBackPressed();
+        }
+        return super.onOptionsItemSelected(menuItem);
+    }
+
+    @Override
+    public void onBackPressed(){
+        setResult(RESULT_CANCELED,null);
         finish();
     }
 }

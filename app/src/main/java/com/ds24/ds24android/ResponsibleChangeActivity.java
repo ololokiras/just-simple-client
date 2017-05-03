@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
 
 import com.ds24.ds24android.adapters.filterAdapters.ResponsibleAdapter;
 import com.ds24.ds24android.repository.Constants;
@@ -40,6 +41,7 @@ public class ResponsibleChangeActivity extends AppCompatActivity implements Resp
         responsibleChangeRecycler=(RecyclerView)findViewById(R.id.responsible_change_recycler);
         responsibleChangeRecycler.setHasFixedSize(true);
         responsibleChangeRecycler.setLayoutManager(new LinearLayoutManager(this));
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     private void doRequest(){
@@ -76,6 +78,20 @@ public class ResponsibleChangeActivity extends AppCompatActivity implements Resp
         bundle.putSerializable(Constants.responsibleChange,responsibleData);
         intent.putExtras(bundle);
         setResult(RESULT_OK,intent);
+        finish();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        if (menuItem.getItemId() == android.R.id.home) {
+            super.onBackPressed();
+        }
+        return super.onOptionsItemSelected(menuItem);
+    }
+
+    @Override
+    public void onBackPressed(){
+        setResult(RESULT_CANCELED,null);
         finish();
     }
 }

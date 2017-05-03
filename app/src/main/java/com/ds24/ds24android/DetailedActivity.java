@@ -1,9 +1,11 @@
 package com.ds24.ds24android;
 
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 
 import com.ds24.ds24android.repository.Constants;
 import com.ds24.ds24android.adapters.PagerAdapter;
@@ -31,7 +33,7 @@ public class DetailedActivity extends AppCompatActivity {
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.comments)));
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.updates)));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-        ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
+        viewPager = (ViewPager) findViewById(R.id.pager);
         adapter = new PagerAdapter
                 (getSupportFragmentManager(), tabLayout.getTabCount(),requestId);
         viewPager.setAdapter(adapter);
@@ -60,4 +62,23 @@ public class DetailedActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Заявка #"+requestId);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        if (menuItem.getItemId() == android.R.id.home) {
+            super.onBackPressed();
+        }
+        return super.onOptionsItemSelected(menuItem);
+    }
+
+    @Override
+    public void onBackPressed(){
+        finish();
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+
+        //onCreate(new Bundle());
+    }
 }

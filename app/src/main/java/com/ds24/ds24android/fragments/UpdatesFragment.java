@@ -1,6 +1,5 @@
 package com.ds24.ds24android.fragments;
 
-import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -41,8 +40,6 @@ public class UpdatesFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
     ServerAPI serverAPI;
     RecyclerView recyclerView;
     int requestId;
@@ -76,8 +73,6 @@ public class UpdatesFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
             requestId=getArguments().getInt(Constants.requestId);
         }
         serverAPI= ServerAPI.retrofit.create(ServerAPI.class);
@@ -89,15 +84,18 @@ public class UpdatesFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView=inflater.inflate(R.layout.fragment_updates, container, false);
         recyclerView=(RecyclerView)rootView.findViewById(R.id.recycler_changes);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext().getApplicationContext()));
+        LinearLayoutManager layoutManager=new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
-        swipeRefreshLayout=(SwipeRefreshLayout)rootView.findViewById(R.id.swipe_updates);
-        swipeRefreshLayout.setOnRefreshListener(()->doRequest(requestId));
-        doRequest(requestId);
+
+        swipeRefreshLayout =(SwipeRefreshLayout)rootView.findViewById(R.id.swipe_updates);
+        swipeRefreshLayout.setOnRefreshListener(() -> doUpdateRequest(requestId));
+
+        doUpdateRequest(requestId);
         return rootView;
     }
 
-    private void doRequest(int requestId) {
+    private void doUpdateRequest(int requestId) {
         //модель json'a та же, поэтому не стал запариваться
         CommentAsk changesAsk =new CommentAsk();
         changesAsk.act=Constants.getUpdatesList;

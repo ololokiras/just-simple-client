@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -151,6 +152,8 @@ public class DetailFragment extends Fragment implements DatePickerDialog.OnDateS
         swipeRefreshLayout=(SwipeRefreshLayout)rootView.findViewById(R.id.swipe_detail);
         swipeRefreshLayout.setOnRefreshListener(()->doRequest(requestId));
         doRequest(requestId);
+
+
         return rootView;
     }
 
@@ -183,9 +186,13 @@ public class DetailFragment extends Fragment implements DatePickerDialog.OnDateS
     }
 
     private void fillContent(RequestDetailData data) {
+        String addressString="";
+        addressString+=data.house;
+        if(data.floor!=null)
+            addressString+=" "+data.floor;
+        addressString+=" "+data.flat;
 
-
-        addressText.setText(data.house+" "+data.floor+" "+data.flat);
+        addressText.setText(addressString);
         aonText.setText(data.autophone);
         contPhoneText.setText(data.contphone);
         noteText.setText(data.note);

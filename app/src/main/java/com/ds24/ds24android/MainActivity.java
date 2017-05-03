@@ -16,6 +16,7 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import com.ds24.ds24android.adapters.RequestAdapter;
 import com.ds24.ds24android.repository.Constants;
@@ -34,7 +35,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, RequestAdapter.OnRequestSelectedListener {
 
     Context ctx;
     ServerAPI serverAPI;
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity
     RecyclerView recyclerRequest;
     SwipeRefreshLayout swipeRefreshLayout;
     LinearLayoutManager layoutManager;
+    ProgressBar progressBar;
 
     RequestAdapter requestAdapter;
     ArrayList<DataRequest> dataRequests;
@@ -92,6 +94,9 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void initUI(){
+        progressBar=(ProgressBar)findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.VISIBLE);
+
         swipeRefreshLayout=(SwipeRefreshLayout)findViewById(R.id.swipe_main);
 
         recyclerRequest=(RecyclerView)findViewById(R.id.recycler_request);
@@ -114,6 +119,7 @@ public class MainActivity extends AppCompatActivity
                     if(response.body().ok) {
                         if (response.body().token) {
                             dataRequests=response.body().data;
+                            stopProgress();
                             fillRecycler();
                             swipeRefreshLayout.setRefreshing(false);
                         }
@@ -129,8 +135,12 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
+    private void stopProgress(){
+        progressBar.setVisibility(View.GONE);
+    }
+
     private void fillRecycler() {
-        requestAdapter=new RequestAdapter(this,dataRequests);
+        requestAdapter=new RequestAdapter(this,dataRequests,this);
         requestAdapter.setLoadMoreListener(() -> recyclerRequest.post(() -> {
             int index=dataRequests.size()-1;
             loadMore(index);
@@ -160,7 +170,7 @@ public class MainActivity extends AppCompatActivity
                                 //fillRecycler();
                             }
                             else {
-                                //requestAdapter.setMoreDataAvailable(false);
+                                requestAdapter.setMoreDataAvailable(false);
                             }
                             requestAdapter.notifyDataChanged();
                             swipeRefreshLayout.setRefreshing(false);
@@ -221,6 +231,13 @@ public class MainActivity extends AppCompatActivity
         return requestionAsk;
     }
 
+    @Override
+    public void onRequestSelect(int requestId) {
+        Intent detailRequestionIntent=new Intent(this, DetailedActivity.class);
+        detailRequestionIntent.putExtra(Constants.requestId,requestId);
+        startActivity(detailRequestionIntent);
+    }
+
     private void goToLogin() {
         Intent loginIntent=new Intent(this,LoginActivity.class);
         startActivityForResult(loginIntent, Constants.loginActivityKey);
@@ -252,11 +269,16 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_filter) {
+            rememberFilterState();
             startFilterActivity();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void rememberFilterState(){
+        DS24Application.previousFilterState=DS24Application.getFilterInstance().clone();
     }
 
     private void startFilterActivity() {
@@ -290,6 +312,10 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onResume(){
         super.onResume();
-        initUI();
+        if(!Functions.compareFilterState(DS24Application.previousFilterState,DS24Application.getFilterInstance()))
+            initUI();
+        //initUI();
     }
+
+
 }

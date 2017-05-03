@@ -15,7 +15,7 @@ import com.ds24.ds24android.retrofit.model.workType.WorkTypeResponseData;
  * Created by well on 25.04.2017.
  */
 
-public class Filter {
+public class Filter implements Cloneable{
     public ContractorResponseData contractorData=null;
     public StreetResponseData streetData=null;
     public HouseResponseData houseData=null;
@@ -28,4 +28,17 @@ public class Filter {
     public RequestTypeResponseData requestTypeData=null;
     public String startDate=null;
     public String endDate=null;
+
+    @Override
+    public Filter clone()
+    {
+        try
+        {
+            return (Filter) super.clone();
+        }
+        catch( CloneNotSupportedException e )
+        {
+            return null;
+        }
+    }
 }

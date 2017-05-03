@@ -21,6 +21,8 @@ public class DS24Application extends Application{
         return mInstance;
     }
 
+    public static Filter previousFilterState=new Filter();
+
     public static synchronized Filter getFilterInstance(){
         if(filterInstance==null)
             filterInstance=new Filter();

@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
 
 import com.ds24.ds24android.adapters.StatusChangeAdapter;
 import com.ds24.ds24android.repository.Constants;
@@ -39,6 +40,7 @@ public class StatusChangeActivity extends AppCompatActivity implements StatusCha
         statusChangeRecycler=(RecyclerView)findViewById(R.id.status_change_recycler);
         statusChangeRecycler.setHasFixedSize(true);
         statusChangeRecycler.setLayoutManager(new LinearLayoutManager(this));
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     private void doRequest() {
@@ -75,6 +77,20 @@ public class StatusChangeActivity extends AppCompatActivity implements StatusCha
         bundle.putSerializable(Constants.statusChange,statusData);
         intent.putExtras(bundle);
         setResult(RESULT_OK,intent);
+        finish();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        if (menuItem.getItemId() == android.R.id.home) {
+            super.onBackPressed();
+        }
+        return super.onOptionsItemSelected(menuItem);
+    }
+
+    @Override
+    public void onBackPressed(){
+        setResult(RESULT_CANCELED,null);
         finish();
     }
 }

@@ -46,6 +46,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    private String tempLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +54,9 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         // Set up the login form.
         mLoginView = (AutoCompleteTextView) findViewById(R.id.login);
+        if(!TextUtils.isEmpty(tempLogin)){
+            mLoginView.setText(tempLogin);
+        }
 
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener((textView, id, keyEvent) -> {
@@ -191,12 +195,18 @@ public class LoginActivity extends AppCompatActivity {
             try {
                 Response<LoginResponse> loginResponse=call.execute();
                 if(loginResponse.isSuccessful()){
-                    PreferencesBuffer.setToken(loginResponse.body().token,getApplication());
-                    return true;
+                    if(loginResponse.body().ok)
+                        if(loginResponse.body().credentials){
+                            PreferencesBuffer.setToken(loginResponse.body().token,getApplication());
+                            return true;
+                    }
+
+                    return false;
                 }
                 else {
                     APIError error= ErrorUtils.parseError(loginResponse);
                     Log.d(Constants.errorTag,error.message());
+                    tempLogin=mLogin;
                     return false;
                 }
             } catch (IOException e) {
@@ -204,6 +214,7 @@ public class LoginActivity extends AppCompatActivity {
                 return false;
             }
         }
+
 
         @Override
         protected void onPostExecute(final Boolean success) {

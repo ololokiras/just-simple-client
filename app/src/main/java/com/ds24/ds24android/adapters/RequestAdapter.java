@@ -27,20 +27,27 @@ public class RequestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     Context ctx;
     ArrayList<DataRequest> dataRequests;
     OnLoadMoreListener loadMoreListener;
+    OnRequestSelectedListener requestSelectedListener;
     boolean isLoading=false, isMoreDataAvailable=true;
 
     public interface OnLoadMoreListener{
         void onLoadMore();
     }
 
+    public interface OnRequestSelectedListener{
+        void onRequestSelect(int requestId);
+    }
+
     public void setLoadMoreListener(OnLoadMoreListener loadMoreListener){
         this.loadMoreListener=loadMoreListener;
     }
 
-    public RequestAdapter(Context ctx, ArrayList<DataRequest> dataRequests){
+    public RequestAdapter(Context ctx, ArrayList<DataRequest> dataRequests, OnRequestSelectedListener requestSelectedListener){
         this.ctx=ctx;
         this.dataRequests=dataRequests;
+        this.requestSelectedListener=requestSelectedListener;
     }
+
 
 
     @Override
@@ -67,9 +74,8 @@ public class RequestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     private void startRequestDetail(int position){
-        Intent detailRequestionIntent=new Intent(ctx, DetailedActivity.class);
-        detailRequestionIntent.putExtra(Constants.requestId,dataRequests.get(position).requestId);
-        ctx.startActivity(detailRequestionIntent);
+        requestSelectedListener.onRequestSelect(dataRequests.get(position).requestId);
+
     }
 
     @Override

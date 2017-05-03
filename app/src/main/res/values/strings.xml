@@ -45,7 +45,7 @@
 
     <string name="detail">Детализация</string>
     <string name="comments">Комментарии</string>
-    <string name="updates">Обновления</string>
+    <string name="updates">История</string>
 
     <string name="write_your_comment">Напишите комментарий</string>
     <string name="send">Отправить</string>
