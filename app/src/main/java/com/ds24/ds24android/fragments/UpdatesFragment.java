@@ -89,14 +89,15 @@ public class UpdatesFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
 
         swipeRefreshLayout =(SwipeRefreshLayout)rootView.findViewById(R.id.swipe_updates);
-
-        swipeRefreshLayout.setOnRefreshListener(() -> {
-            swipeRefreshLayout.setRefreshing(true);
-            doUpdateRequest(requestId);
-        });
+        swipeRefreshLayout.setOnRefreshListener(()->doUpdateRequest(requestId));
 
         doUpdateRequest(requestId);
         return rootView;
+    }
+
+    @Override
+    public void onViewCreated(View rootView, Bundle savedInstanceState) {
+        super.onViewCreated(rootView, savedInstanceState);
     }
 
     private void doUpdateRequest(int requestId) {
@@ -131,7 +132,7 @@ public class UpdatesFragment extends Fragment {
     private void fillContent(ArrayList<UpdatesData> data) {
         UpdatesAdapter changesAdapter=new UpdatesAdapter(data,getActivity().getApplicationContext());
         recyclerView.setAdapter(changesAdapter);
-        swipeRefreshLayout.setEnabled(false);
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

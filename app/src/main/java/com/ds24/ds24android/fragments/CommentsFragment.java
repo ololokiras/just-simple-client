@@ -28,8 +28,6 @@ import com.ds24.ds24android.retrofit.model.comments.Req;
 import com.ds24.ds24android.utils.Functions;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 
 import retrofit2.Call;
 import retrofit2.Callback;
