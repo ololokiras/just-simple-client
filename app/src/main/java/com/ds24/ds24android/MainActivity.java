@@ -106,6 +106,7 @@ public class MainActivity extends AppCompatActivity
 
         getRequests();
         swipeRefreshLayout.setOnRefreshListener(()->getRequests());
+
     }
 
     private void getRequests() {
@@ -141,10 +142,14 @@ public class MainActivity extends AppCompatActivity
 
     private void fillRecycler() {
         requestAdapter=new RequestAdapter(this,dataRequests,this);
+
+
+
         requestAdapter.setLoadMoreListener(() -> recyclerRequest.post(() -> {
-            int index=dataRequests.size()-1;
+            int index=dataRequests.size()+1;
             loadMore(index);
         }));
+
         recyclerRequest.setAdapter(requestAdapter);
     }
 
@@ -312,9 +317,9 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onResume(){
         super.onResume();
-        if(!Functions.compareFilterState(DS24Application.previousFilterState,DS24Application.getFilterInstance()))
+        if(!Functions.compareFilterState(DS24Application.previousFilterState,DS24Application.getFilterInstance())){
             initUI();
-        //initUI();
+        }
     }
 
 
