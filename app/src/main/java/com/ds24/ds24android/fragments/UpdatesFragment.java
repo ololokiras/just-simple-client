@@ -89,7 +89,11 @@ public class UpdatesFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
 
         swipeRefreshLayout =(SwipeRefreshLayout)rootView.findViewById(R.id.swipe_updates);
-        swipeRefreshLayout.setOnRefreshListener(() -> doUpdateRequest(requestId));
+
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            swipeRefreshLayout.setRefreshing(true);
+            doUpdateRequest(requestId);
+        });
 
         doUpdateRequest(requestId);
         return rootView;
