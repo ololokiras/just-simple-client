@@ -45,6 +45,9 @@ public class Functions {
 
     public static boolean compareFilterState(Filter previous, Filter current){
 
+        if(previous.contractorData==null && current.contractorData==null)
+            return true;
+
         boolean result=true;
 
         if(previous.contractorData!=null && current.contractorData==null)

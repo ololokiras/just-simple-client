@@ -321,6 +321,4 @@ public class MainActivity extends AppCompatActivity
             initUI();
         }
     }
-
-
 }

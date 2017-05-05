@@ -201,7 +201,13 @@ public class DetailFragment extends Fragment implements DatePickerDialog.OnDateS
         statusText.setText(data.status);
         empText.setText(data.emp);
         respText.setText(data.resp);
-        deadlineText.setText(data.deadlineAt);
+        if(!TextUtils.isEmpty(data.deadlineAt))
+            deadlineText.setText(data.deadlineAt);
+        else {
+            SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy", Locale.US);
+            Calendar calendar=Calendar.getInstance();
+            deadlineText.setText(dateFormatter.format(calendar.getTime()));
+        }
 
         swipeRefreshLayout.setRefreshing(false);
     }

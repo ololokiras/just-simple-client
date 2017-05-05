@@ -131,7 +131,7 @@ public class UpdatesFragment extends Fragment {
     private void fillContent(ArrayList<UpdatesData> data) {
         UpdatesAdapter changesAdapter=new UpdatesAdapter(data,getActivity().getApplicationContext());
         recyclerView.setAdapter(changesAdapter);
-        swipeRefreshLayout.setEnabled(false);
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

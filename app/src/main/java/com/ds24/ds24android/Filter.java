@@ -30,14 +30,11 @@ public class Filter implements Cloneable{
     public String endDate=null;
 
     @Override
-    public Filter clone()
-    {
-        try
-        {
+    public Filter clone() {
+        try{
             return (Filter) super.clone();
         }
-        catch( CloneNotSupportedException e )
-        {
+        catch( CloneNotSupportedException e ){
             return null;
         }
     }

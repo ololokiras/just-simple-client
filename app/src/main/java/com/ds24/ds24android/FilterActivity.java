@@ -3,6 +3,7 @@ package com.ds24.ds24android;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -143,7 +144,7 @@ public class FilterActivity extends AppCompatActivity {
         requestTypeDelete.setOnClickListener(v -> requestTypeClear());
 
         periodDelete=(ImageView)findViewById(R.id.period_delete);
-        reasonDelete.setOnClickListener(v -> periodClear());
+        periodDelete.setOnClickListener(v -> periodClear());
     }
 
     private void contractorsClear(){
@@ -350,4 +351,16 @@ public class FilterActivity extends AppCompatActivity {
         startActivity(getIntent());
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        if (menuItem.getItemId() == android.R.id.home) {
+            super.onBackPressed();
+        }
+        return super.onOptionsItemSelected(menuItem);
+    }
+
+    @Override
+    public void onBackPressed(){
+        finish();
+    }
 }

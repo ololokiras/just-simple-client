@@ -28,7 +28,7 @@
     <string name="work_type">Тип работ</string>
     <string name="reason">Причина обращения</string>
     <string name="responsible">Ответственный</string>
-    <string name="employee">Исполнетиль</string>
+    <string name="employee">Исполнитель</string>
     <string name="status">Статус</string>
     <string name="request_type">Тип заявки</string>
     <string name="period">Период</string>
