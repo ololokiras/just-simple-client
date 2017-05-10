@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ds24.ds24android.R;
@@ -22,11 +23,14 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.ViewHo
     ArrayList<EmployeeResponseData>  employeeDatas;
     public interface EmployeeSelectedListener{void onEmployeeSelect(EmployeeResponseData employeeData);}
     EmployeeSelectedListener employeeSelectedListener;
+    int selectedId;
 
-    public EmployeeAdapter(Context ctx, ArrayList<EmployeeResponseData> employeeDatas, EmployeeSelectedListener employeeSelectedListener){
+    public EmployeeAdapter(Context ctx, ArrayList<EmployeeResponseData> employeeDatas,
+                           EmployeeSelectedListener employeeSelectedListener, int selectedId){
         this.ctx=ctx;
         this.employeeDatas=employeeDatas;
         this.employeeSelectedListener=employeeSelectedListener;
+        this.selectedId=selectedId;
     }
 
     @Override
@@ -48,13 +52,19 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.ViewHo
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView textView;
+        ImageView selectedImage;
         public ViewHolder(View itemView) {
             super(itemView);
             textView=(TextView)itemView.findViewById(R.id.text_item);
+            selectedImage=(ImageView)itemView.findViewById(R.id.selected_image);
         }
 
         public void setData(EmployeeResponseData data) {
             textView.setText(data.emp);
+            if(selectedId==data.empId)
+                selectedImage.setVisibility(View.VISIBLE);
+            else
+                selectedImage.setVisibility(View.INVISIBLE);
         }
     }
 }

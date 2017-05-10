@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ds24.ds24android.R;
@@ -24,11 +25,14 @@ public class StatusChangeAdapter extends RecyclerView.Adapter<StatusChangeAdapte
     ArrayList<StatusData> statusDatas;
     public interface StatusSelectListener{void onStatusSelect(StatusData statusData);}
     StatusSelectListener statusSelectListener;
+    int incomeStatusId;
 
-    public StatusChangeAdapter(Context ctx,ArrayList<StatusData> statusDatas, StatusSelectListener statusSelectListener){
+    public StatusChangeAdapter(Context ctx,ArrayList<StatusData> statusDatas,
+                               StatusSelectListener statusSelectListener, int incomeStatusId){
         this.ctx=ctx;
         this.statusDatas=statusDatas;
         this.statusSelectListener=statusSelectListener;
+        this.incomeStatusId=incomeStatusId;
     }
 
     @Override
@@ -48,15 +52,23 @@ public class StatusChangeAdapter extends RecyclerView.Adapter<StatusChangeAdapte
         return statusDatas.size();
     }
 
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView textView;
+        ImageView selectedImage;
         public ViewHolder(View itemView) {
             super(itemView);
             textView=(TextView)itemView.findViewById(R.id.text_item);
+            selectedImage=(ImageView)itemView.findViewById(R.id.selected_image);
         }
 
         public void setData(StatusData data) {
             textView.setText(data.status);
+
+            if(incomeStatusId==data.statusId)
+                selectedImage.setVisibility(View.VISIBLE);
+            else
+                selectedImage.setVisibility(View.INVISIBLE);
         }
     }
 }

@@ -85,18 +85,20 @@ public class UpdatesFragment extends Fragment {
         View rootView=inflater.inflate(R.layout.fragment_updates, container, false);
         recyclerView=(RecyclerView)rootView.findViewById(R.id.recycler_changes);
         LinearLayoutManager layoutManager=new LinearLayoutManager(getActivity());
+        layoutManager.setReverseLayout(true);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
 
         swipeRefreshLayout =(SwipeRefreshLayout)rootView.findViewById(R.id.swipe_updates);
-
-        swipeRefreshLayout.setOnRefreshListener(() -> {
-            swipeRefreshLayout.setRefreshing(true);
-            doUpdateRequest(requestId);
-        });
+        swipeRefreshLayout.setOnRefreshListener(()->doUpdateRequest(requestId));
 
         doUpdateRequest(requestId);
         return rootView;
+    }
+
+    @Override
+    public void onViewCreated(View rootView, Bundle savedInstanceState) {
+        super.onViewCreated(rootView, savedInstanceState);
     }
 
     private void doUpdateRequest(int requestId) {
@@ -105,7 +107,7 @@ public class UpdatesFragment extends Fragment {
         changesAsk.act=Constants.getUpdatesList;
         changesAsk.req=new Req();
         changesAsk.req.start=1;
-        changesAsk.req.count=30;
+        changesAsk.req.count=Constants.paginationSize;
         changesAsk.req.requestId=requestId;
 
         Call<Updates> callChanges=serverAPI.getRequestChanges(

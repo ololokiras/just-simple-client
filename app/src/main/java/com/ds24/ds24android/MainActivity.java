@@ -26,6 +26,7 @@ import com.ds24.ds24android.retrofit.model.asks.ReqParams;
 import com.ds24.ds24android.retrofit.model.asks.RequestionAsk;
 import com.ds24.ds24android.retrofit.model.request.DataRequest;
 import com.ds24.ds24android.retrofit.model.request.Requestion;
+import com.ds24.ds24android.retrofit.model.statusTree.StatusResponseData;
 import com.ds24.ds24android.utils.Functions;
 
 import java.util.ArrayList;
@@ -47,6 +48,8 @@ public class MainActivity extends AppCompatActivity
 
     RequestAdapter requestAdapter;
     ArrayList<DataRequest> dataRequests;
+
+    int lastFirstVisiblePosition=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +73,16 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        createDefaultFilter();
+
         checkLogin();
+    }
+
+    private void createDefaultFilter(){
+        DS24Application.getFilterInstance().statusData=new StatusResponseData();
+        DS24Application.getFilterInstance().statusData.status=Constants.defaultStatusDataName;
+        DS24Application.getFilterInstance().statusData.statusId=Constants.defaultStatusDataIds;
+        rememberFilterState();
     }
 
     private void checkLogin() {
@@ -104,9 +116,9 @@ public class MainActivity extends AppCompatActivity
         layoutManager=new LinearLayoutManager(this);
         recyclerRequest.setLayoutManager(layoutManager);
 
+
         getRequests();
         swipeRefreshLayout.setOnRefreshListener(()->getRequests());
-
     }
 
     private void getRequests() {
@@ -120,6 +132,7 @@ public class MainActivity extends AppCompatActivity
                     if(response.body().ok) {
                         if (response.body().token) {
                             dataRequests=response.body().data;
+
                             stopProgress();
                             fillRecycler();
                             swipeRefreshLayout.setRefreshing(false);
@@ -145,10 +158,11 @@ public class MainActivity extends AppCompatActivity
 
 
 
-        requestAdapter.setLoadMoreListener(() -> recyclerRequest.post(() -> {
-            int index=dataRequests.size()+1;
-            loadMore(index);
-        }));
+        if(dataRequests.size()==Constants.paginationSize)
+            requestAdapter.setLoadMoreListener(() -> recyclerRequest.post(() -> {
+                int index=dataRequests.size()+1;
+                loadMore(index);
+            }));
 
         recyclerRequest.setAdapter(requestAdapter);
     }
@@ -173,7 +187,12 @@ public class MainActivity extends AppCompatActivity
                                 requestAdapter.setMoreDataAvailable(true);
 
                                 //fillRecycler();
+                                if(results.size()< Constants.paginationSize)
+                                    requestAdapter.setMoreDataAvailable(false);
                             }
+
+
+
                             else {
                                 requestAdapter.setMoreDataAvailable(false);
                             }
@@ -240,6 +259,7 @@ public class MainActivity extends AppCompatActivity
     public void onRequestSelect(int requestId) {
         Intent detailRequestionIntent=new Intent(this, DetailedActivity.class);
         detailRequestionIntent.putExtra(Constants.requestId,requestId);
+        rememberFilterState();
         startActivity(detailRequestionIntent);
     }
 
@@ -317,8 +337,22 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onResume(){
         super.onResume();
-        if(!Functions.compareFilterState(DS24Application.previousFilterState,DS24Application.getFilterInstance())){
-            initUI();
+        if(!TextUtils.isEmpty(PreferencesBuffer.getToken(ctx))) {
+            if (!Functions.compareFilterState())
+                initUI();
+            else{
+                if(lastFirstVisiblePosition>0) {
+                    recyclerRequest.getLayoutManager().scrollToPosition(lastFirstVisiblePosition);
+                    lastFirstVisiblePosition = 0;
+                }
+            }
         }
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        if(recyclerRequest!=null)
+            lastFirstVisiblePosition=((LinearLayoutManager)recyclerRequest.getLayoutManager()).findFirstVisibleItemPosition();
     }
 }

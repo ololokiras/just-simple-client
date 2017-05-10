@@ -27,11 +27,14 @@ public class StatusChangeActivity extends AppCompatActivity implements StatusCha
     RecyclerView statusChangeRecycler;
     ServerAPI serverAPI;
     StatusChangeAdapter statusChangeAdapter;
+    int selectedStatusId;
+    int incomeStatusId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_status_change);
         serverAPI=ServerAPI.retrofit.create(ServerAPI.class);
+        incomeStatusId=getIntent().getIntExtra(Constants.statusId,-1);
         initUI();
         doRequest();
     }
@@ -66,19 +69,38 @@ public class StatusChangeActivity extends AppCompatActivity implements StatusCha
     }
 
     private void fillRecycler(ArrayList<StatusData> data){
-        statusChangeAdapter=new StatusChangeAdapter(this,data,this);
+        statusChangeAdapter=new StatusChangeAdapter(this,data,this,incomeStatusId);
         statusChangeRecycler.setAdapter(statusChangeAdapter);
     }
 
     @Override
     public void onStatusSelect(StatusData statusData) {
+        if(statusData.reasons>0) {
+            selectedStatusId=statusData.statusId;
+            Intent intent=new Intent(this,ReasonStatusSelectActivity.class);
+            intent.putExtra(Constants.statusId,statusData.statusId);
+            startActivityForResult(intent,Constants.reasonActivityKey);
+        }
+        else{
+           finishWithStatus(statusData);
+        }
+    }
+
+    private void finishWithStatus(StatusData statusData){
         Intent intent=new Intent();
-        Bundle bundle=new Bundle();
-        bundle.putSerializable(Constants.statusChange,statusData);
-        intent.putExtras(bundle);
+        intent.putExtra(Constants.statusId,statusData.statusId);
         setResult(RESULT_OK,intent);
         finish();
     }
+
+    private void finishWithStatusReason(int statusId, int reasonId){
+        Intent intent=new Intent();
+        intent.putExtra(Constants.statusId,statusId);
+        intent.putExtra(Constants.reasonId,reasonId);
+        setResult(RESULT_OK,intent);
+        finish();
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {
@@ -92,5 +114,17 @@ public class StatusChangeActivity extends AppCompatActivity implements StatusCha
     public void onBackPressed(){
         setResult(RESULT_CANCELED,null);
         finish();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode==Constants.reasonActivityKey)
+            if(resultCode==RESULT_OK){
+                if(data!=null){
+                    int reasonId=data.getIntExtra(Constants.reasonId,-1);
+                    if(reasonId>0)
+                        finishWithStatusReason(selectedStatusId,reasonId);
+                }
+            }
     }
 }

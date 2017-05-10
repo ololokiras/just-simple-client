@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ds24.ds24android.R;
@@ -22,11 +23,14 @@ public class StreetAdapter extends RecyclerView.Adapter<StreetAdapter.ViewHolder
     ArrayList<StreetResponseData> streetDatas;
     public interface StreetSelectListener{void onStreetSelect(StreetResponseData streetData);}
     StreetSelectListener streetSelectListener;
+    String selectedStreet;
 
-    public StreetAdapter(Context ctx,ArrayList<StreetResponseData> streetDatas, StreetSelectListener streetSelectListener){
+    public StreetAdapter(Context ctx,ArrayList<StreetResponseData> streetDatas,
+                         StreetSelectListener streetSelectListener, String selectedStreet){
         this.ctx=ctx;
         this.streetDatas=streetDatas;
         this.streetSelectListener=streetSelectListener;
+        this.selectedStreet=selectedStreet;
     }
 
     @Override
@@ -48,13 +52,19 @@ public class StreetAdapter extends RecyclerView.Adapter<StreetAdapter.ViewHolder
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView textView;
+        ImageView selectedImage;
         public ViewHolder(View itemView) {
             super(itemView);
             textView=(TextView)itemView.findViewById(R.id.text_item);
+            selectedImage=(ImageView)itemView.findViewById(R.id.selected_image);
         }
 
         public void setData(StreetResponseData streetResponseData) {
             textView.setText(streetResponseData.street);
+            if(streetResponseData.street.equals(selectedStreet))
+                selectedImage.setVisibility(View.VISIBLE);
+            else
+                selectedImage.setVisibility(View.INVISIBLE);
         }
     }
 }

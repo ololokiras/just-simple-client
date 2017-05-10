@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ds24.ds24android.R;
@@ -22,11 +23,14 @@ public class WorkTypeAdapter extends RecyclerView.Adapter<WorkTypeAdapter.ViewHo
     ArrayList<WorkTypeResponseData> workTypeDatas;
     public interface WorkTypeSelectListener{void onWorkTypeSelect(WorkTypeResponseData workTypeData);}
     WorkTypeSelectListener workTypeSelectListener;
+    int selectedId;
 
-    public WorkTypeAdapter(Context ctx, ArrayList<WorkTypeResponseData> workTypeDatas, WorkTypeSelectListener workTypeSelectListener){
+    public WorkTypeAdapter(Context ctx, ArrayList<WorkTypeResponseData> workTypeDatas,
+                           WorkTypeSelectListener workTypeSelectListener, int selectedId){
         this.ctx=ctx;
         this.workTypeDatas=workTypeDatas;
         this.workTypeSelectListener=workTypeSelectListener;
+        this.selectedId=selectedId;
     }
 
     @Override
@@ -48,13 +52,19 @@ public class WorkTypeAdapter extends RecyclerView.Adapter<WorkTypeAdapter.ViewHo
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView textView;
+        ImageView selectedImage;
         public ViewHolder(View itemView) {
             super(itemView);
             textView=(TextView)itemView.findViewById(R.id.text_item);
+            selectedImage=(ImageView)itemView.findViewById(R.id.selected_image);
         }
 
         public void setData(WorkTypeResponseData data) {
             textView.setText(data.workType);
+            if(selectedId==data.workTypeId)
+                selectedImage.setVisibility(View.VISIBLE);
+            else
+                selectedImage.setVisibility(View.INVISIBLE);
         }
     }
 }

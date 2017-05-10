@@ -9,25 +9,27 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="8dp">
+        android:orientation="vertical">
 
         <RelativeLayout
             android:id="@+id/contractors_layout"
             style="@style/material_2lines_item_layout">
+
             <TextView
                 android:id="@+id/contractor_selected"
-                android:text="УК ЕРЕМА"
                 style="@style/primary_text"/>
+
             <TextView
                 android:id="@+id/contractors_desc"
                 style="@style/second_text"
-                android:text="@string/contractors"
+                android:layout_below="@id/contractor_selected"
+                android:text="@string/contractors" />
 
-                android:layout_below="@id/contractor_selected"/>
             <ImageView
                 android:id="@+id/contractors_delete"
-                style="@style/clear_filter_button"/>
+                style="@style/clear_filter_button"
+
+             />
         </RelativeLayout>
 
         <RelativeLayout
@@ -81,8 +83,8 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="8dp"
-            android:background="@color/cardview_dark_background"/>
+            android:layout_height="4dp"
+            android:background="@color/divider_color"/>
 
 
         <RelativeLayout
@@ -110,7 +112,7 @@
             <TextView
                 android:id="@+id/reason_title"
                 style="@style/second_text"
-                android:text="@string/reason"
+                android:text="@string/reason_of_call"
                 android:layout_below="@id/reason_selected"/>
             <ImageView
                 android:id="@+id/reason_delete"
@@ -120,8 +122,8 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="8dp"
-            android:background="@color/cardview_dark_background"/>
+            android:layout_height="4dp"
+            android:background="@color/divider_color"/>
 
 
         <RelativeLayout
@@ -159,8 +161,8 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="8dp"
-            android:background="@color/cardview_dark_background"/>
+            android:layout_height="4dp"
+            android:background="@color/divider_color"/>
 
 
         <RelativeLayout
@@ -198,8 +200,8 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="8dp"
-            android:background="@color/cardview_dark_background"/>
+            android:layout_height="4dp"
+            android:background="@color/divider_color"/>
 
         <RelativeLayout
             android:id="@+id/period_layout"
@@ -212,21 +214,26 @@
                 style="@style/second_text"
                 android:layout_below="@id/period_selected"
                 android:text="@string/period" />
-
             <ImageView
                 android:id="@+id/period_delete"
                 style="@style/clear_filter_button" />
         </RelativeLayout>
 
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:background="@color/divider_color"/>
+
         <RelativeLayout
             android:id="@+id/clear_filter_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            style="@style/material_2lines_item_layout">
+            <TextView
+                android:text="@string/clear_all_filters"
+                style="@style/primary_text"
+                android:layout_centerVertical="true"/>
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:src="@drawable/ic_delete"/>
+                style="@style/clear_filter_button"/>
         </RelativeLayout>
 
 

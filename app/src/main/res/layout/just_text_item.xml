@@ -1,13 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="8dp">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="wrap_content"
+    android:layout_height="48dp">
+
+    <ImageView
+        android:id="@+id/selected_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="16dp"
+        android:src="@drawable/ic_select"
+        android:layout_centerVertical="true"
+        android:visibility="invisible"/>
 
     <TextView
         android:id="@+id/text_item"
-        android:padding="8dp"
+        android:paddingLeft="72dp"
+        android:paddingRight="16dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"/>
 
-</LinearLayout>
+</RelativeLayout>

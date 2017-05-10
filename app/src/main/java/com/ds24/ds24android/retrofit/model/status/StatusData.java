@@ -16,4 +16,7 @@ public class StatusData implements Serializable{
     @SerializedName("status_id")
     @Expose
     public Integer statusId;
+    @SerializedName("reasons")
+    @Expose
+    public Integer reasons;
 }

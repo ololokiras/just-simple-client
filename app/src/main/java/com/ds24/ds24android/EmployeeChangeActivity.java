@@ -27,12 +27,14 @@ public class EmployeeChangeActivity extends AppCompatActivity implements Employe
     RecyclerView employeeChangeRecycler;
     ServerAPI serverAPI;
     EmployeeAdapter employeeAdapter;
+    int incomeEmployeeId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_employee_change);
         serverAPI=ServerAPI.retrofit.create(ServerAPI.class);
+        incomeEmployeeId=getIntent().getIntExtra(Constants.employeeId,-1);
         initUI();
         doRequest();
     }
@@ -68,7 +70,7 @@ public class EmployeeChangeActivity extends AppCompatActivity implements Employe
     }
 
     private void fillRecycler(ArrayList<EmployeeResponseData> data) {
-        employeeAdapter=new EmployeeAdapter(this,data,this);
+        employeeAdapter=new EmployeeAdapter(this,data,this,incomeEmployeeId);
         employeeChangeRecycler.setAdapter(employeeAdapter);
     }
 

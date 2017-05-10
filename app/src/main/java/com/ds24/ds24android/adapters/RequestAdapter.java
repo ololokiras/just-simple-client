@@ -2,6 +2,7 @@ package com.ds24.ds24android.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -115,7 +116,13 @@ public class RequestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public void setData(DataRequest dataRequest) {
             idText.setText("#"+dataRequest.requestId);
             dataText.setText(dataRequest.createdAt);
-            addressText.setText(dataRequest.house+", кв."+dataRequest.flat);
+
+            String addressString="";
+            addressString+=dataRequest.house;
+            if(!TextUtils.isEmpty(dataRequest.flat))
+                addressString+=" кв. "+dataRequest.flat;
+            addressText.setText(addressString);
+
             reasonText.setText(dataRequest.note);
             statusText.setText(dataRequest.status);
         }

@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
 
 import com.ds24.ds24android.DS24Application;
 import com.ds24.ds24android.R;
@@ -72,8 +73,21 @@ public class WorkTypeActivity extends AppCompatActivity implements WorkTypeAdapt
     }
 
     private void fillRecycler(ArrayList<WorkTypeResponseData> data) {
-        adapter= new WorkTypeAdapter(this,data,this);
+        if(DS24Application.getFilterInstance().workTypeData!=null){
+            if(DS24Application.getFilterInstance().workTypeData.workTypeId>0)
+                adapter=new WorkTypeAdapter(this,data,this,DS24Application.getFilterInstance().workTypeData.workTypeId);
+        }
+        else
+            adapter= new WorkTypeAdapter(this,data,this,-1);
         workTypeRecycler.setAdapter(adapter);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        if (menuItem.getItemId() == android.R.id.home) {
+            super.onBackPressed();
+        }
+        return super.onOptionsItemSelected(menuItem);
     }
 
     @Override

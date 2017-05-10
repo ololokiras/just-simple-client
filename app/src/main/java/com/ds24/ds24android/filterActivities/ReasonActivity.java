@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
 
 import com.ds24.ds24android.DS24Application;
 import com.ds24.ds24android.R;
@@ -76,8 +77,21 @@ public class ReasonActivity extends AppCompatActivity implements ReasonAdapter.R
     }
 
     private void fillRecycler(ArrayList<ReasonResponseData> data) {
-        adapter=new ReasonAdapter(this,data,this);
+        if(DS24Application.getFilterInstance().reasonData!=null){
+            if(DS24Application.getFilterInstance().reasonData.reasonId>0)
+                adapter=new ReasonAdapter(this,data,this,DS24Application.getFilterInstance().reasonData.reasonId);
+        }
+        else
+            adapter=new ReasonAdapter(this,data,this, -1);
         reasonRecycler.setAdapter(adapter);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        if (menuItem.getItemId() == android.R.id.home) {
+            super.onBackPressed();
+        }
+        return super.onOptionsItemSelected(menuItem);
     }
 
     @Override

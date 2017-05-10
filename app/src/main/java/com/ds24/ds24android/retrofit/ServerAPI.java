@@ -25,16 +25,21 @@ import com.ds24.ds24android.retrofit.model.requestDetail.RequestDetailAsk;
 import com.ds24.ds24android.retrofit.model.requestType.RequestTypeResponse;
 import com.ds24.ds24android.retrofit.model.responsible.ResponsibleResponse;
 import com.ds24.ds24android.retrofit.model.status.Status;
+import com.ds24.ds24android.retrofit.model.statusReason.StatusReasonAsk;
+import com.ds24.ds24android.retrofit.model.statusReason.StatusReasonResponse;
 import com.ds24.ds24android.retrofit.model.statusTree.StatusResponse;
 import com.ds24.ds24android.retrofit.model.streets.StreetCustomAsk;
 import com.ds24.ds24android.retrofit.model.streets.StreetResponse;
 import com.ds24.ds24android.retrofit.model.updateDeadline.DeadlineUpdateAsk;
 import com.ds24.ds24android.retrofit.model.updateEmployee.EmployeeUpdateAsk;
 import com.ds24.ds24android.retrofit.model.updateResponsible.ResponsibleUpdateAsk;
+import com.ds24.ds24android.retrofit.model.updateStatus.StatusReasonUpdateAsk;
 import com.ds24.ds24android.retrofit.model.updateStatus.StatusUpdateAsk;
 import com.ds24.ds24android.retrofit.model.updates.Updates;
 import com.ds24.ds24android.retrofit.model.workType.WorkTypeResponse;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -56,6 +61,9 @@ public interface ServerAPI {
 
     OkHttpClient client = new OkHttpClient.Builder()
             .addInterceptor(logging.setLevel(HttpLoggingInterceptor.Level.BODY))
+            .connectTimeout(2, TimeUnit.SECONDS)
+            .readTimeout(10,TimeUnit.SECONDS)
+            .writeTimeout(10,TimeUnit.SECONDS)
             .build();
 
     public static Retrofit retrofit = new Retrofit.Builder()
@@ -174,7 +182,13 @@ public interface ServerAPI {
             @Header("authorization") String token,
             @Body SimpleAsk statusAsk);
 
-    //запрос на update заявки
+    //запрос на update заявки с причиной
+    @POST("/request")
+    Call<RequestUpdate> statusReasonUpdateRequest(
+            @Header("authorization") String token,
+            @Body StatusReasonUpdateAsk updateAsk);
+
+    //запрос на update статуса заявки
     @POST("/request")
     Call<RequestUpdate> statusUpdateRequest(
             @Header("authorization") String token,
@@ -197,4 +211,10 @@ public interface ServerAPI {
     Call<RequestUpdate> deadlineUpdateRequest(
             @Header("authorization") String token,
             @Body DeadlineUpdateAsk updateAsk);
+
+    //получение причин смены статуса
+    @POST("/reference")
+    Call<StatusReasonResponse> getStatusReasons(
+            @Header("authorization") String token,
+            @Body StatusReasonAsk statusReasonAsk);
 }

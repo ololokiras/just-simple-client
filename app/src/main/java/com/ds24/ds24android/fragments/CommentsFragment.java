@@ -28,8 +28,6 @@ import com.ds24.ds24android.retrofit.model.comments.Req;
 import com.ds24.ds24android.utils.Functions;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -125,7 +123,7 @@ public class CommentsFragment extends Fragment {
         commentsAsk.act=Constants.getCommentList;
         commentsAsk.req=new Req();
         commentsAsk.req.start=1;
-        commentsAsk.req.count=30;
+        commentsAsk.req.count=Constants.paginationSize;
         commentsAsk.req.requestId=requestId;
 
         Call<Comments> callComments=serverAPI.getRequestComment(

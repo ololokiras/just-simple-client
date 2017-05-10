@@ -5,10 +5,10 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Created by well on 10.05.2017.
+ * Created by well on 02.05.2017.
  */
 
-public class StatusUpdateAsk {
+public class StatusReasonUpdateAsk {
     @SerializedName("act")
     @Expose
     public String act;
@@ -17,5 +17,5 @@ public class StatusUpdateAsk {
     public RequestionDetailParams req;
     @SerializedName("data")
     @Expose
-    public StatusUpdateData data=null;
+    public StatusReasonUpdateData data;
 }

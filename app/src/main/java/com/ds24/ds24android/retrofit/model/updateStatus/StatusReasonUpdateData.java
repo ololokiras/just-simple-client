@@ -4,11 +4,15 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Created by well on 10.05.2017.
+ * Created by well on 02.05.2017.
  */
 
-public class StatusUpdateData {
+public class StatusReasonUpdateData {
     @SerializedName("status_id")
     @Expose
     public int statusId;
+
+    @SerializedName("reason_id")
+    @Expose
+    public int reasonId;
 }

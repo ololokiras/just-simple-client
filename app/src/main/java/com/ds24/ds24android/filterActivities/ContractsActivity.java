@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
 
 import com.ds24.ds24android.DS24Application;
 import com.ds24.ds24android.R;
@@ -69,8 +70,22 @@ public class ContractsActivity extends AppCompatActivity implements ContractorsA
         });
     }
     private void fillRecycler(ArrayList<ContractorResponseData> data){
-        adapter=new ContractorsAdapter(this,data,this);
+        if(DS24Application.getFilterInstance().contractorData!=null) {
+            if (DS24Application.getFilterInstance().contractorData.cntId > 0)
+                adapter = new ContractorsAdapter(this, data, this, DS24Application.getFilterInstance().contractorData.cntId);
+        }
+        else {
+            adapter = new ContractorsAdapter(this, data, this, -1);
+        }
         contractorsRecycler.setAdapter(adapter);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        if (menuItem.getItemId() == android.R.id.home) {
+            super.onBackPressed();
+        }
+        return super.onOptionsItemSelected(menuItem);
     }
 
     @Override

@@ -37,7 +37,7 @@ public class RequestDetailData {
     public String updatedAt;
     @SerializedName("floor")
     @Expose
-    public Integer floor;
+    public String floor;
     @SerializedName("entr")
     @Expose
     public String entr;

@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -30,7 +31,7 @@ public class PeriodActivity extends AppCompatActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_period);
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         initUI();
     }
 
@@ -104,4 +105,11 @@ public class PeriodActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        if (menuItem.getItemId() == android.R.id.home) {
+            super.onBackPressed();
+        }
+        return super.onOptionsItemSelected(menuItem);
+    }
 }

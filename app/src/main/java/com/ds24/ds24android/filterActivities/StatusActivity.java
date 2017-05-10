@@ -4,6 +4,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.view.MenuItem;
 
 import com.ds24.ds24android.DS24Application;
 import com.ds24.ds24android.R;
@@ -68,7 +70,12 @@ public class StatusActivity extends AppCompatActivity implements StatusAdapter.S
     }
 
     private void fillRecycler(ArrayList<StatusResponseData> data) {
-        adapter=new StatusAdapter(this,data,this);
+        if(DS24Application.getFilterInstance().statusData!=null){
+            if(!TextUtils.isEmpty(DS24Application.getFilterInstance().statusData.statusId))
+                adapter=new StatusAdapter(this,data,this,DS24Application.getFilterInstance().statusData.statusId);
+        }
+        else
+            adapter=new StatusAdapter(this,data,this,"");
         statusRecycler.setAdapter(adapter);
     }
 
@@ -77,5 +84,13 @@ public class StatusActivity extends AppCompatActivity implements StatusAdapter.S
         DS24Application.getFilterInstance().statusData =statusData;
         setResult(RESULT_OK);
         finish();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        if (menuItem.getItemId() == android.R.id.home) {
+            super.onBackPressed();
+        }
+        return super.onOptionsItemSelected(menuItem);
     }
 }

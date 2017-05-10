@@ -3,11 +3,7 @@
     package="com.ds24.ds24android">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
-    <!-- To auto-complete the email text field in the login form with the user's emails -->
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.READ_PROFILE" />
-    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
         android:allowBackup="true"
@@ -30,48 +26,55 @@
             android:label="@string/title_activity_login" />
         <activity
             android:name=".FilterActivity"
-            android:label="@string/find_with_params"/>
+            android:label="@string/find_with_params" />
         <activity
             android:name=".filterActivities.ContractsActivity"
-            android:label="@string/contractors"/>
+            android:label="@string/contractors" />
         <activity
             android:name=".filterActivities.StreetActivity"
-            android:label="@string/street"/>
+            android:label="@string/street" />
         <activity
             android:name=".filterActivities.HouseActivity"
-            android:label="@string/house"/>
+            android:label="@string/house" />
         <activity
             android:name=".filterActivities.FlatActivity"
-            android:label="@string/flat"/>
+            android:label="@string/flat" />
         <activity
             android:name=".filterActivities.WorkTypeActivity"
-            android:label="@string/work_type"/>
+            android:label="@string/work_type" />
         <activity
             android:name=".filterActivities.ReasonActivity"
-            android:label="@string/reason"/>
+            android:label="@string/reason_of_call" />
         <activity
             android:name=".filterActivities.ResponsibleActivity"
-            android:label="@string/responsible"/>
+            android:label="@string/responsible" />
         <activity
             android:name=".filterActivities.EmployeeActivity"
-            android:label="@string/employee"/>
+            android:label="@string/employee" />
         <activity
             android:name=".filterActivities.StatusActivity"
-            android:label="@string/status"/>
+            android:label="@string/status" />
         <activity
             android:name=".filterActivities.RequestTypeActivity"
-            android:label="@string/request_type"/>
+            android:label="@string/request_type" />
         <activity
             android:name=".filterActivities.PeriodActivity"
-            android:label="@string/period"/>
-        <activity android:name=".DetailedActivity"/>
+            android:label="@string/period" />
+        <activity
+            android:name=".DetailedActivity" />
         <activity
             android:name=".StatusChangeActivity"
-            android:label="@string/status"/>
-        <activity android:name=".ResponsibleChangeActivity"
-            android:label="@string/responsible"/>
-        <activity android:name=".EmployeeChangeActivity"
-            android:label="@string/employee"/>
+            android:label="@string/status" />
+        <activity
+            android:name=".ResponsibleChangeActivity"
+            android:label="@string/responsible" />
+        <activity
+            android:name=".EmployeeChangeActivity"
+            android:label="@string/employee" />
+
+        <activity
+            android:name=".ReasonStatusSelectActivity"
+            android:label="@string/reason"/>
     </application>
 
 </manifest>

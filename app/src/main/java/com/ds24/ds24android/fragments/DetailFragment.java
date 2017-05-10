@@ -1,10 +1,14 @@
 package com.ds24.ds24android.fragments;
 
+import android.Manifest;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -29,13 +33,14 @@ import com.ds24.ds24android.retrofit.model.requestDetail.RequestDetail;
 import com.ds24.ds24android.retrofit.model.requestDetail.RequestDetailAsk;
 import com.ds24.ds24android.retrofit.model.requestDetail.RequestDetailData;
 import com.ds24.ds24android.retrofit.model.responsible.ResponsibleResponseData;
-import com.ds24.ds24android.retrofit.model.status.StatusData;
 import com.ds24.ds24android.retrofit.model.updateDeadline.DeadlineUpdateAsk;
 import com.ds24.ds24android.retrofit.model.updateDeadline.DeadlineUpdateData;
 import com.ds24.ds24android.retrofit.model.updateEmployee.EmployeeUpdateAsk;
 import com.ds24.ds24android.retrofit.model.updateEmployee.EmployeeUpdateData;
 import com.ds24.ds24android.retrofit.model.updateResponsible.ResponsibleUpdateAsk;
 import com.ds24.ds24android.retrofit.model.updateResponsible.ResponsibleUpdateData;
+import com.ds24.ds24android.retrofit.model.updateStatus.StatusReasonUpdateAsk;
+import com.ds24.ds24android.retrofit.model.updateStatus.StatusReasonUpdateData;
 import com.ds24.ds24android.retrofit.model.updateStatus.StatusUpdateAsk;
 import com.ds24.ds24android.retrofit.model.updateStatus.StatusUpdateData;
 import com.ds24.ds24android.utils.Functions;
@@ -74,16 +79,21 @@ public class DetailFragment extends Fragment implements DatePickerDialog.OnDateS
     TextView aonText;
     TextView contPhoneText;
     TextView workTypeText;
-    TextView createdRefText;
+    TextView createdAtText;
 
     RelativeLayout statusChangeLayout;
     RelativeLayout employeeChangeLayout;
     RelativeLayout responsibleChangeLayout;
     RelativeLayout deadlineChangeLayout;
 
+    RelativeLayout aonCallLayout;
+    RelativeLayout conPhoneLayout;
+
     SwipeRefreshLayout swipeRefreshLayout;
 
     ServerAPI serverAPI;
+
+    RequestDetailData detailData;
 
     private OnFragmentInteractionListener mListener;
 
@@ -126,11 +136,17 @@ public class DetailFragment extends Fragment implements DatePickerDialog.OnDateS
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
         addressText=(TextView)rootView.findViewById(R.id.address);
+
         aonText=(TextView)rootView.findViewById(R.id.aon_value);
         contPhoneText=(TextView)rootView.findViewById(R.id.cont_phone_value);
+        aonCallLayout=(RelativeLayout)rootView.findViewById(R.id.aon_layout);
+        aonCallLayout.setOnClickListener(v->aonCall());
+        conPhoneLayout=(RelativeLayout)rootView.findViewById(R.id.cont_phone_layout);
+        conPhoneLayout.setOnClickListener(v->contPhoneCall());
+
         noteText=(TextView)rootView.findViewById(R.id.note);
         workTypeText=(TextView)rootView.findViewById(R.id.work_type);
-        createdRefText=(TextView)rootView.findViewById(R.id.created_ref);
+        createdAtText=(TextView)rootView.findViewById(R.id.created_at_text);
 
         statusText=(TextView)rootView.findViewById(R.id.status_value);
         statusChangeLayout=(RelativeLayout)rootView.findViewById(R.id.status_change_layout);
@@ -171,9 +187,11 @@ public class DetailFragment extends Fragment implements DatePickerDialog.OnDateS
             @Override
             public void onResponse(Call<RequestDetail> call, Response<RequestDetail> response) {
                 if(response.isSuccessful()){
-                    if(response.body().ok==true)
-                        if(response.body().token==true)
+                    if(response.body().ok)
+                        if(response.body().token) {
                             fillContent(response.body().data);
+                            detailData = response.body().data;
+                        }
                 }
             }
 
@@ -188,43 +206,86 @@ public class DetailFragment extends Fragment implements DatePickerDialog.OnDateS
     private void fillContent(RequestDetailData data) {
         String addressString="";
         addressString+=data.house;
-        if(data.floor!=null)
-            addressString+=" "+data.floor;
-        addressString+=" "+data.flat;
+        if(!TextUtils.isEmpty(data.floor))
+            addressString+=" эт.: "+data.floor;
+        if(!TextUtils.isEmpty(data.flat))
+            addressString+=" кв. "+data.flat;
+        if(!TextUtils.isEmpty(data.entr))
+            addressString+=" п. "+data.entr;
 
         addressText.setText(addressString);
         aonText.setText(data.autophone);
         contPhoneText.setText(data.contphone);
         noteText.setText(data.note);
         workTypeText.setText(data.type+", "+data.ess);
-        createdRefText.setText("Создана: "+data.createdBy+" "+data.createdAt+", изменена "+data.updatedAt);
-        statusText.setText(data.status);
+
+        String createdTitle="Создан ";
+        createdTitle+=data.createdBy+" "+data.createdAt;
+
+        if(!TextUtils.isEmpty(data.updatedAt))
+            createdTitle+=" \n Обновлена "+data.updatedAt;
+
+        createdAtText.setText(createdTitle);
+
+
+        String statusString=data.status;
+        if(!TextUtils.isEmpty(data.reason))
+            statusString+=", "+data.reason;
+        statusText.setText(statusString);
+
         empText.setText(data.emp);
         respText.setText(data.resp);
         if(!TextUtils.isEmpty(data.deadlineAt))
             deadlineText.setText(data.deadlineAt);
-        else {
-            SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy", Locale.US);
-            Calendar calendar=Calendar.getInstance();
-            deadlineText.setText(dateFormatter.format(calendar.getTime()));
-        }
 
         swipeRefreshLayout.setRefreshing(false);
     }
 
+
+    private void aonCall(){
+        if(checkCallPermission()) {
+            Intent callIntent = new Intent(Intent.ACTION_CALL);
+            callIntent.setData(Uri.parse("tel:" + aonText.getText().toString()));
+            startActivity(callIntent);
+        }
+    }
+
+    private void contPhoneCall(){
+        if(checkCallPermission()) {
+            Intent callIntent = new Intent(Intent.ACTION_CALL);
+            callIntent.setData(Uri.parse("tel:" + contPhoneText.getText().toString()));
+            startActivity(callIntent);
+        }
+    }
+
+    private boolean checkCallPermission() {
+        int permission = ContextCompat.checkSelfPermission(getActivity(),
+                Manifest.permission.CALL_PHONE);
+        if(permission==PackageManager.PERMISSION_GRANTED)
+            return true;
+
+        ActivityCompat.requestPermissions(getActivity(),
+                new String[]{Manifest.permission.CALL_PHONE},
+                Constants.MY_PERMISSIONS_REQUEST_CALL_PHONE);
+
+        return false;
+    }
+
     private void changeStatus(){
-        //получение статусов
         Intent intent=new Intent(getActivity(), StatusChangeActivity.class);
+        intent.putExtra(Constants.statusId,detailData.statusId);
         startActivityForResult(intent,Constants.statusChangeActivityKey);
     }
 
     private void changeEmployee(){
         Intent intent=new Intent(getActivity(), EmployeeChangeActivity.class);
+        intent.putExtra(Constants.employeeId,detailData.empId);
         startActivityForResult(intent,Constants.employeeChangeActivityKey);
     }
 
     private void changeResponsible(){
         Intent intent=new Intent(getActivity(), ResponsibleChangeActivity.class);
+        intent.putExtra(Constants.responsibleId,detailData.respId);
         startActivityForResult(intent,Constants.responsibleChangeActivityKey);
     }
 
@@ -264,7 +325,12 @@ public class DetailFragment extends Fragment implements DatePickerDialog.OnDateS
         if(requestCode==Constants.statusChangeActivityKey){
             if(resultCode==RESULT_OK){
                 if(data!=null){
-                    updateStatus((StatusData)data.getExtras().getSerializable(Constants.statusChange));
+                    int statusId=data.getIntExtra(Constants.statusId,-1);
+                    int reasonId=data.getIntExtra(Constants.reasonId,-1);
+                    if(statusId>0 && reasonId>0)
+                        updateStatusWithReason(statusId,reasonId);
+                    if(statusId>0 && reasonId<1)
+                        updateStatus(statusId);
                 }
             }
         }
@@ -272,6 +338,7 @@ public class DetailFragment extends Fragment implements DatePickerDialog.OnDateS
         if(requestCode==Constants.responsibleChangeActivityKey){
             if(resultCode==RESULT_OK){
                 if(data!=null){
+
                     updateResponsible((ResponsibleResponseData)data.getExtras().getSerializable(Constants.responsibleChange));
                 }
             }
@@ -286,15 +353,43 @@ public class DetailFragment extends Fragment implements DatePickerDialog.OnDateS
         }
     }
 
-    private void updateStatus(StatusData data) {
+    private void updateStatus(int statusId){
         StatusUpdateAsk ask=new StatusUpdateAsk();
         ask.act=Constants.setUpdateRequest;
         ask.req=new RequestionDetailParams();
         ask.req.requestId=requestId;
         ask.data=new StatusUpdateData();
-        ask.data.statudId=data.statusId;
-        Call<RequestUpdate> updateCall=serverAPI.statusUpdateRequest(Functions.encodeToBase64(PreferencesBuffer.getToken(getActivity().getApplication())),
-                                                                     ask);
+        ask.data.statusId=statusId;
+        Call<RequestUpdate> updateCall=serverAPI.statusUpdateRequest(
+                Functions.encodeToBase64(PreferencesBuffer.getToken(getActivity().getApplication())),
+                ask);
+        updateCall.enqueue(new Callback<RequestUpdate>() {
+            @Override
+            public void onResponse(Call<RequestUpdate> call, Response<RequestUpdate> response) {
+                if(response.isSuccessful())
+                    if(response.body().ok)
+                        if(response.body().token)
+                            doRequest(requestId);
+            }
+
+            @Override
+            public void onFailure(Call<RequestUpdate> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void updateStatusWithReason(int statusId, int reasonId) {
+        StatusReasonUpdateAsk ask=new StatusReasonUpdateAsk();
+        ask.act=Constants.setUpdateRequest;
+        ask.req=new RequestionDetailParams();
+        ask.req.requestId=requestId;
+        ask.data=new StatusReasonUpdateData();
+        ask.data.statusId =statusId;
+        ask.data.reasonId=reasonId;
+        Call<RequestUpdate> updateCall=serverAPI.statusReasonUpdateRequest(
+                Functions.encodeToBase64(PreferencesBuffer.getToken(getActivity().getApplication())),
+                 ask);
         updateCall.enqueue(new Callback<RequestUpdate>() {
             @Override
             public void onResponse(Call<RequestUpdate> call, Response<RequestUpdate> response) {

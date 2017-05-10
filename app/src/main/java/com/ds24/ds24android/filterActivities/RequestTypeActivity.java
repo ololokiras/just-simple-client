@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
 
 import com.ds24.ds24android.DS24Application;
 import com.ds24.ds24android.R;
@@ -69,8 +70,21 @@ public class RequestTypeActivity extends AppCompatActivity implements RequestTyp
     }
 
     private void fillRecycler(ArrayList<RequestTypeResponseData> data) {
-        adapter=new RequestTypeAdapter(this,data,this);
+        if(DS24Application.getFilterInstance().requestTypeData!=null) {
+            if (DS24Application.getFilterInstance().requestTypeData.rtypeId > 0)
+                adapter=new RequestTypeAdapter(this,data,this,DS24Application.getFilterInstance().requestTypeData.rtypeId);
+        }
+        else
+            adapter=new RequestTypeAdapter(this,data,this,-1);
         requestTypeRecycler.setAdapter(adapter);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        if (menuItem.getItemId() == android.R.id.home) {
+            super.onBackPressed();
+        }
+        return super.onOptionsItemSelected(menuItem);
     }
 
     @Override

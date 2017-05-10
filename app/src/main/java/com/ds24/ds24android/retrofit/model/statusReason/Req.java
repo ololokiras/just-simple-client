@@ -1,13 +1,13 @@
-package com.ds24.ds24android.retrofit.model.updateStatus;
+package com.ds24.ds24android.retrofit.model.statusReason;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Created by well on 10.05.2017.
+ * Created by well on 09.05.2017.
  */
 
-public class StatusUpdateData {
+public class Req {
     @SerializedName("status_id")
     @Expose
     public int statusId;

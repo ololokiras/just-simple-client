@@ -27,12 +27,14 @@ public class ResponsibleChangeActivity extends AppCompatActivity implements Resp
     RecyclerView responsibleChangeRecycler;
     ServerAPI serverAPI;
     ResponsibleAdapter responsibleAdapter;
+    int incomeResponsibleId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_responsible_change);
         serverAPI=ServerAPI.retrofit.create(ServerAPI.class);
+        incomeResponsibleId=getIntent().getIntExtra(Constants.responsibleId,-1);
         initUI();
         doRequest();
     }
@@ -67,7 +69,7 @@ public class ResponsibleChangeActivity extends AppCompatActivity implements Resp
     }
 
     private void fillRecycler(ArrayList<ResponsibleResponseData> data) {
-        responsibleAdapter=new ResponsibleAdapter(this,data,this);
+        responsibleAdapter=new ResponsibleAdapter(this,data,this,incomeResponsibleId);
         responsibleChangeRecycler.setAdapter(responsibleAdapter);
     }
 

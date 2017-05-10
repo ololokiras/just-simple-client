@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
 
 import com.ds24.ds24android.DS24Application;
 import com.ds24.ds24android.R;
@@ -77,8 +78,21 @@ public class FlatActivity extends AppCompatActivity implements FlatAdapter.FlatS
     }
 
     private void fillRecycler(ArrayList<FlatResponseData> data) {
-        adapter=new FlatAdapter(this,data,this);
+        if(DS24Application.getFilterInstance().flatData!=null){
+            if(DS24Application.getFilterInstance().flatData.flatId>0)
+                adapter=new FlatAdapter(this,data,this,DS24Application.getFilterInstance().flatData.flatId);
+        }
+        else
+            adapter=new FlatAdapter(this,data,this,-1);
         flatRecycler.setAdapter(adapter);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        if (menuItem.getItemId() == android.R.id.home) {
+            super.onBackPressed();
+        }
+        return super.onOptionsItemSelected(menuItem);
     }
 
     @Override

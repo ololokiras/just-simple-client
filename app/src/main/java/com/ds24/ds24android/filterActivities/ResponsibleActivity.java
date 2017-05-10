@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
 
 import com.ds24.ds24android.DS24Application;
 import com.ds24.ds24android.R;
@@ -70,8 +71,22 @@ public class ResponsibleActivity extends AppCompatActivity implements Responsibl
 
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        if (menuItem.getItemId() == android.R.id.home) {
+            super.onBackPressed();
+        }
+        return super.onOptionsItemSelected(menuItem);
+    }
+
+
     private void fillRecycler(ArrayList<ResponsibleResponseData> data) {
-        adapter=new ResponsibleAdapter(this,data,this);
+        if(DS24Application.getFilterInstance().responsibleData!=null){
+            if(DS24Application.getFilterInstance().responsibleData.respId>0)
+                adapter=new ResponsibleAdapter(this,data,this,DS24Application.getFilterInstance().responsibleData.respId);
+        }
+        else
+            adapter=new ResponsibleAdapter(this,data,this, -1);
         responsibleRecycler.setAdapter(adapter);
     }
 

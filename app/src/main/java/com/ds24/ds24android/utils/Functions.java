@@ -1,7 +1,13 @@
 package com.ds24.ds24android.utils;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.util.Base64;
 
@@ -43,12 +49,13 @@ public class Functions {
         return result;
     }
 
-    public static boolean compareFilterState(Filter previous, Filter current){
+    public static boolean compareFilterState(){
 
-        if(previous.contractorData==null && current.contractorData==null)
+        Filter previous=DS24Application.previousFilterState;
+        Filter current=DS24Application.getFilterInstance();
+
+        if(previous==null && current==null)
             return true;
-
-        boolean result=true;
 
         if(previous.contractorData!=null && current.contractorData==null)
             return false;
@@ -99,6 +106,14 @@ public class Functions {
             if(previous.reasonData.reasonId!=current.reasonData.reasonId)
                 return false;
 
+        if(previous.responsibleData!=null && current.responsibleData==null)
+            return false;
+        if(previous.responsibleData==null && current.responsibleData!=null)
+            return false;
+        if(previous.responsibleData!=null && current.responsibleData!=null)
+            if(previous.responsibleData.respId!=current.responsibleData.respId)
+                return false;
+
         if(previous.employeeData!=null && current.employeeData==null)
             return false;
         if(previous.employeeData==null && current.employeeData!=null)
@@ -135,8 +150,15 @@ public class Functions {
             if(!previous.endDate.equals(current.endDate))
                 return false;
 
+        return true;
+    }
 
-
-        return result;
+    public static boolean hasPermissions(Context context) {
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && context != null && Manifest.permission.CALL_PHONE != null) {
+                if (ActivityCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                    return false;
+                }
+            }
+        return true;
     }
 }

@@ -1,5 +1,7 @@
 package com.ds24.ds24android.repository;
 
+import com.ds24.ds24android.retrofit.model.statusTree.StatusResponseData;
+
 /**
  * Created by well on 22.04.2017.
  */
@@ -11,6 +13,9 @@ public class Constants {
     public static String token="token";
 
     public static String errorTag="error_tag";
+
+    public static String defaultStatusDataName ="Новые";
+    public static String defaultStatusDataIds ="1:65:70:5";
 
     //for authorization
     public static String devType="Android";
@@ -24,6 +29,8 @@ public class Constants {
     public static int statusChangeActivityKey=21;
     public static int responsibleChangeActivityKey=22;
     public static int employeeChangeActivityKey=23;
+    public static int MY_PERMISSIONS_REQUEST_CALL_PHONE=101;
+    public static int reasonActivityKey=24;
 
     //actions string list
     public static String getRequestListAction="list";
@@ -42,6 +49,8 @@ public class Constants {
     public static String getUpdatesList="activity_list";
     public static String getRequestDetail="detail";
     public static String getStatusList="status_list";
+    public static String getStatusReasonList="status_reason_list";
+
 
 
     //intent keys
@@ -50,6 +59,10 @@ public class Constants {
     public static String statusChange="statusChange";
     public static String responsibleChange="responsibleChange";
     public static String employeeChange="employeeChange";
+    public static String statusId="statusId";
+    public static String reasonId="reasonId";
+    public static String employeeId="employeeId";
+    public static String responsibleId="responsibleId";
 
 
     public static int paginationSize=50;

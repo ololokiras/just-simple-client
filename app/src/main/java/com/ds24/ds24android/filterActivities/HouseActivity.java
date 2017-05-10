@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.MenuItem;
 
 import com.ds24.ds24android.DS24Application;
 import com.ds24.ds24android.R;
@@ -80,9 +81,23 @@ public class HouseActivity extends AppCompatActivity implements HouseAdapter.Hou
     }
 
     private void fillRecycler(ArrayList<HouseResponseData> data) {
-        adapter=new HouseAdapter(this,data,this);
+        if(DS24Application.getFilterInstance().houseData!=null){
+            if(DS24Application.getFilterInstance().houseData.houseId>0){
+                adapter=new HouseAdapter(this,data,this,DS24Application.getFilterInstance().houseData.houseId);
+            }
+        }
+        else
+            adapter=new HouseAdapter(this,data,this,-1);
         houseRecycler.setAdapter(adapter);
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        if (menuItem.getItemId() == android.R.id.home) {
+            super.onBackPressed();
+        }
+        return super.onOptionsItemSelected(menuItem);
     }
 
     @Override

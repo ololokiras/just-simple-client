@@ -26,12 +26,14 @@
     <string name="house">Дом</string>
     <string name="flat">Квартира</string>
     <string name="work_type">Тип работ</string>
-    <string name="reason">Причина обращения</string>
+    <string name="reason">Причина</string>
+    <string name="reason_of_call">Причина обращения</string>
     <string name="responsible">Ответственный</string>
     <string name="employee">Исполнитель</string>
     <string name="status">Статус</string>
     <string name="request_type">Тип заявки</string>
     <string name="period">Период</string>
+    <string name="clear_all_filters">Сбросить все фильтры</string>
 
     <string name="start_date">Начальная дата</string>
     <string name="end_date">Конечная дата</string>
@@ -51,7 +53,7 @@
     <string name="send">Отправить</string>
 
     <string name="aon_number">Звонил с: </string>
-    <string name="cont_number">Телефон для связи: </string>
+    <string name="cont_number">Телефон заявителя: </string>
     <string name="deadline">Срок исполнения</string>
 
     <string name="ok">OK</string>

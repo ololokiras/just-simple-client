@@ -78,7 +78,5 @@ public class DetailedActivity extends AppCompatActivity {
     @Override
     public void onResume(){
         super.onResume();
-
-        //onCreate(new Bundle());
     }
 }

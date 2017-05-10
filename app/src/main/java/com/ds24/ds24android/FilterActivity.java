@@ -3,6 +3,8 @@ package com.ds24.ds24android;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -60,7 +62,6 @@ public class FilterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filter);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         initUI();
     }
 
@@ -149,57 +150,57 @@ public class FilterActivity extends AppCompatActivity {
 
     private void contractorsClear(){
         DS24Application.clearContractor();
-        reloadThisActivity();
+        fillSelectedFields();
     }
 
     private void streetClear(){
         DS24Application.clearStreet();
-        reloadThisActivity();
+        fillSelectedFields();
     }
 
     private void houseClear(){
         DS24Application.clearHouse();
-        reloadThisActivity();
+        fillSelectedFields();
     }
 
     private void flatClear(){
         DS24Application.clearFlat();
-        reloadThisActivity();
+        fillSelectedFields();
     }
 
     private void workTypeClear(){
         DS24Application.clearWorkType();
-        reloadThisActivity();
+        fillSelectedFields();
     }
 
     private void reasonClear(){
         DS24Application.clearReason();
-        reloadThisActivity();
+        fillSelectedFields();
     }
 
     private void responsibleClear(){
         DS24Application.clearResponsible();
-        reloadThisActivity();
+        fillSelectedFields();
     }
 
     private void employeeClear(){
         DS24Application.clearEmployee();
-        reloadThisActivity();
+        fillSelectedFields();
     }
 
     private void statusClear(){
         DS24Application.clearStatus();
-        reloadThisActivity();
+        fillSelectedFields();
     }
 
     private void requestTypeClear(){
         DS24Application.clearRequestType();
-        reloadThisActivity();
+        fillSelectedFields();
     }
 
     private void periodClear(){
         DS24Application.clearPeriod();
-        reloadThisActivity();
+        fillSelectedFields();
     }
 
     private void contractorsFilter() {
@@ -309,8 +310,10 @@ public class FilterActivity extends AppCompatActivity {
         else
             employeeSelected.setText("");
 
-        if(DS24Application.getFilterInstance().statusData!=null)
+        if(DS24Application.getFilterInstance().statusData!=null) {
             statusSelected.setText(Functions.prepareTreeToSimpleString(DS24Application.getFilterInstance().statusData.status));
+            Log.v("status_data", DS24Application.getFilterInstance().statusData.statusId);
+        }
         else
             statusSelected.setText("");
 
@@ -320,24 +323,23 @@ public class FilterActivity extends AppCompatActivity {
             requestTypeSelected.setText("");
 
         String dateString="";
-        if(DS24Application.getFilterInstance().startDate!=null)
-            dateString+=DS24Application.getFilterInstance().startDate;
-        else
-            dateString+=getString(R.string.not_selected);
+        if(!TextUtils.isEmpty(DS24Application.getFilterInstance().startDate)) {
+            dateString+="от ";
+            dateString += DS24Application.getFilterInstance().startDate;
+        }
 
-        dateString+="-";
-
-        if(DS24Application.getFilterInstance().endDate!=null)
-            dateString+=DS24Application.getFilterInstance().endDate;
-        else
-            dateString+=getString(R.string.not_selected);
+        if(!TextUtils.isEmpty(DS24Application.getFilterInstance().endDate)) {
+            dateString+=" по ";
+            dateString += DS24Application.getFilterInstance().endDate;
+        }
 
         periodSelected.setText(dateString);
     }
 
     private void clearFilter(){
         DS24Application.clearFilter();
-        reloadThisActivity();
+        fillSelectedFields();
+        //reloadThisActivity();
     }
 
     @Override
@@ -346,10 +348,6 @@ public class FilterActivity extends AppCompatActivity {
         fillSelectedFields();
     }
 
-    private void reloadThisActivity(){
-        finish();
-        startActivity(getIntent());
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {
