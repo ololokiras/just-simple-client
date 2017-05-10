@@ -73,7 +73,7 @@ public class RequestDetailData {
     public String empNote;
     @SerializedName("status_id")
     @Expose
-    public Integer statusId;
+    public int statusId;
     @SerializedName("reason_id")
     @Expose
     public Integer reasonId;
@@ -85,8 +85,8 @@ public class RequestDetailData {
     public Integer essId;
     @SerializedName("emp_id")
     @Expose
-    public Integer empId;
+    public int empId;
     @SerializedName("resp_id")
     @Expose
-    public Integer respId;
+    public int respId;
 }

@@ -325,12 +325,15 @@ public class DetailFragment extends Fragment implements DatePickerDialog.OnDateS
         if(requestCode==Constants.statusChangeActivityKey){
             if(resultCode==RESULT_OK){
                 if(data!=null){
+
                     int statusId=data.getIntExtra(Constants.statusId,-1);
                     int reasonId=data.getIntExtra(Constants.reasonId,-1);
-                    if(statusId>0 && reasonId>0)
-                        updateStatusWithReason(statusId,reasonId);
-                    if(statusId>0 && reasonId<1)
-                        updateStatus(statusId);
+                    if(detailData.statusId!=statusId) {
+                        if (statusId > 0 && reasonId > 0)
+                            updateStatusWithReason(statusId, reasonId);
+                        if (statusId > 0 && reasonId < 1)
+                            updateStatus(statusId);
+                    }
                 }
             }
         }
@@ -338,8 +341,11 @@ public class DetailFragment extends Fragment implements DatePickerDialog.OnDateS
         if(requestCode==Constants.responsibleChangeActivityKey){
             if(resultCode==RESULT_OK){
                 if(data!=null){
-
-                    updateResponsible((ResponsibleResponseData)data.getExtras().getSerializable(Constants.responsibleChange));
+                    ResponsibleResponseData result=(ResponsibleResponseData)data.getExtras().getSerializable(Constants.responsibleChange);
+                    if(result!=null) {
+                        if(detailData.respId!=result.respId)
+                            updateResponsible(result);
+                    }
                 }
             }
         }
@@ -347,7 +353,11 @@ public class DetailFragment extends Fragment implements DatePickerDialog.OnDateS
         if(requestCode==Constants.employeeChangeActivityKey){
             if(resultCode==RESULT_OK){
                 if(data!=null){
-                    updateEmployee((EmployeeResponseData)data.getExtras().getSerializable(Constants.employeeChange));
+                    EmployeeResponseData result= (EmployeeResponseData) data.getExtras().getSerializable(Constants.employeeChange);
+                    if(result!=null){
+                        if(detailData.empId!=result.empId)
+                            updateEmployee(result);
+                    }
                 }
             }
         }

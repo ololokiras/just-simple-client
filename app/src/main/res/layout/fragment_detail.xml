@@ -40,6 +40,7 @@
                 <TextView
                     android:id="@+id/note"
                     style="@style/primary_text"
+                    android:textStyle="bold"
                     android:layout_below="@id/work_type"
                     android:layout_marginTop="16dp"/>
 

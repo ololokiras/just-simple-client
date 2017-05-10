@@ -15,5 +15,5 @@ public class ContractorResponseData implements Serializable {
     public String cnt;
     @SerializedName("cnt_id")
     @Expose
-    public Integer cntId;
+    public int cntId;
 }

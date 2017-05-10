@@ -1,5 +1,6 @@
 package com.ds24.ds24android.filterActivities;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -92,8 +93,10 @@ public class WorkTypeActivity extends AppCompatActivity implements WorkTypeAdapt
 
     @Override
     public void onWorkTypeSelect(WorkTypeResponseData workTypeData) {
-        DS24Application.getFilterInstance().workTypeData=workTypeData;
-        setResult(RESULT_OK);
+        //DS24Application.getFilterInstance().workTypeData=workTypeData;
+        Intent intent=new Intent();
+        intent.putExtra(Constants.workType,workTypeData);
+        setResult(RESULT_OK,intent);
         finish();
     }
 }

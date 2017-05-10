@@ -1,5 +1,6 @@
 package com.ds24.ds24android.filterActivities;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -102,9 +103,9 @@ public class HouseActivity extends AppCompatActivity implements HouseAdapter.Hou
 
     @Override
     public void onHouseSelect(HouseResponseData houseData) {
-        DS24Application.clearHouse();
-        DS24Application.getFilterInstance().houseData=houseData;
-        setResult(RESULT_OK);
+        Intent intent=new Intent();
+        intent.putExtra(Constants.houses,houseData);
+        setResult(RESULT_OK,intent);
         finish();
     }
 }

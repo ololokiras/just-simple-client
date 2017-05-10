@@ -1,5 +1,6 @@
 package com.ds24.ds24android.filterActivities;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -104,8 +105,10 @@ public class StreetActivity extends AppCompatActivity implements StreetAdapter.S
 
     @Override
     public void onStreetSelect(StreetResponseData streetData) {
-        DS24Application.getFilterInstance().streetData=streetData;
-        setResult(RESULT_OK);
+        //DS24Application.getFilterInstance().streetData=streetData;
+        Intent intent=new Intent();
+        intent.putExtra(Constants.streets, streetData);
+        setResult(RESULT_OK,intent);
         finish();
     }
 }

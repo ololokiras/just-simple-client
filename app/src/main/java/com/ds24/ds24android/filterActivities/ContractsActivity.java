@@ -90,8 +90,10 @@ public class ContractsActivity extends AppCompatActivity implements ContractorsA
 
     @Override
     public void onContractorSelect(ContractorResponseData contractorResponseData) {
-        DS24Application.getFilterInstance().contractorData=contractorResponseData;
-        setResult(RESULT_OK);
+        //DS24Application.getFilterInstance().contractorData=contractorResponseData;
+        Intent intent=new Intent();
+        intent.putExtra(Constants.contractors,contractorResponseData);
+        setResult(RESULT_OK,intent);
         finish();
 
     }

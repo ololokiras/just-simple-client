@@ -1,6 +1,7 @@
 package com.ds24.ds24android;
 
 import android.content.Intent;
+import android.icu.text.LocaleDisplayNames;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -22,9 +23,15 @@ import com.ds24.ds24android.filterActivities.StatusActivity;
 import com.ds24.ds24android.filterActivities.StreetActivity;
 import com.ds24.ds24android.filterActivities.WorkTypeActivity;
 import com.ds24.ds24android.repository.Constants;
+import com.ds24.ds24android.retrofit.model.contractors.ContractorResponseData;
+import com.ds24.ds24android.retrofit.model.house.HouseResponseData;
+import com.ds24.ds24android.retrofit.model.streets.StreetResponseData;
+import com.ds24.ds24android.retrofit.model.workType.WorkTypeResponseData;
 import com.ds24.ds24android.utils.Functions;
 
 import org.w3c.dom.Text;
+
+import java.util.Objects;
 
 import es.dmoral.toasty.Toasty;
 
@@ -216,7 +223,7 @@ public class FilterActivity extends AppCompatActivity {
     private void houseFilter() {
         if(DS24Application.getFilterInstance().streetData!=null) {
             Intent intent = new Intent(this, HouseActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent,Constants.houseActivityKey);
         }
         else
             Toasty.warning(this,getString(R.string.select_street)).show();
@@ -233,7 +240,7 @@ public class FilterActivity extends AppCompatActivity {
 
     private void workTypeFilter() {
         Intent intent=new Intent(this, WorkTypeActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent,Constants.workTypeChangeActivityKey);
     }
 
     private void reasonFilter() {
@@ -339,7 +346,6 @@ public class FilterActivity extends AppCompatActivity {
     private void clearFilter(){
         DS24Application.clearFilter();
         fillSelectedFields();
-        //reloadThisActivity();
     }
 
     @Override
@@ -348,6 +354,88 @@ public class FilterActivity extends AppCompatActivity {
         fillSelectedFields();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode==Constants.contractorsActivityKey) {
+            if (resultCode == RESULT_OK) {
+                if (data != null) {
+                    ContractorResponseData result = (ContractorResponseData) data.getSerializableExtra(Constants.contractors);
+                    if (result != null) {
+                        if (DS24Application.getFilterInstance().contractorData != null) {
+                            if (DS24Application.getFilterInstance().contractorData.cntId != result.cntId) {
+                                contractorsClear();
+                                DS24Application.getFilterInstance().contractorData = result;
+                                fillSelectedFields();
+                            }
+                        } else {
+                            DS24Application.getFilterInstance().contractorData = result;
+                            fillSelectedFields();
+                        }
+                    }
+                }
+            }
+        }
+
+        if(requestCode==Constants.streetActivityKey){
+            if(resultCode==RESULT_OK){
+                if(data!=null) {
+                    StreetResponseData result = (StreetResponseData) data.getSerializableExtra(Constants.streets);
+                    if (result != null) {
+                        if (DS24Application.getFilterInstance().streetData != null) {
+                            if (!DS24Application.getFilterInstance().streetData.street.equals(result.street)) {
+                                streetClear();
+                                DS24Application.getFilterInstance().streetData = result;
+                                fillSelectedFields();
+                            }
+                        } else {
+                            DS24Application.getFilterInstance().streetData = result;
+                            fillSelectedFields();
+                        }
+                    }
+                }
+            }
+        }
+
+        if(requestCode==Constants.houseActivityKey){
+            if(resultCode==RESULT_OK){
+                if(data!=null){
+                    HouseResponseData result= (HouseResponseData) data.getSerializableExtra(Constants.houses);
+                    if(result!=null){
+                        if(DS24Application.getFilterInstance().houseData!=null){
+                            if(DS24Application.getFilterInstance().houseData.houseId!=result.houseId){
+                                houseClear();
+                                DS24Application.getFilterInstance().houseData=result;
+                                fillSelectedFields();
+                            }
+                        } else {
+                            DS24Application.getFilterInstance().houseData=result;
+                            fillSelectedFields();
+                        }
+                    }
+                }
+            }
+        }
+
+        if(requestCode==Constants.workTypeChangeActivityKey){
+            if(resultCode==RESULT_OK){
+                if(data!=null){
+                    WorkTypeResponseData result= (WorkTypeResponseData) data.getSerializableExtra(Constants.workType);
+                    if(result!=null){
+                        if(DS24Application.getFilterInstance().workTypeData!=null){
+                            if(DS24Application.getFilterInstance().workTypeData.workTypeId!=result.workTypeId){
+                                workTypeClear();
+                                DS24Application.getFilterInstance().workTypeData=result;
+                                fillSelectedFields();
+                            }
+                        } else {
+                            DS24Application.getFilterInstance().workTypeData=result;
+                            fillSelectedFields();
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {
@@ -356,6 +444,7 @@ public class FilterActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(menuItem);
     }
+
 
     @Override
     public void onBackPressed(){

@@ -26,9 +26,11 @@ public class Constants {
     public static int loginActivityKey=1;
     public static int contractorsActivityKey=11;
     public static int streetActivityKey=12;
+    public static int houseActivityKey=13;
     public static int statusChangeActivityKey=21;
     public static int responsibleChangeActivityKey=22;
     public static int employeeChangeActivityKey=23;
+    public static int workTypeChangeActivityKey=24;
     public static int MY_PERMISSIONS_REQUEST_CALL_PHONE=101;
     public static int reasonActivityKey=24;
 
@@ -55,6 +57,10 @@ public class Constants {
 
     //intent keys
     public static String contractors="contractors";
+    public static String streets="streets";
+    public static String houses="houses";
+    public static String workType="workType";
+
     public static String requestId="requestId";
     public static String statusChange="statusChange";
     public static String responsibleChange="responsibleChange";
