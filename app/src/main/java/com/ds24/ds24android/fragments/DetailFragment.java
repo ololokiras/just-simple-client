@@ -187,44 +187,47 @@ public class DetailFragment extends Fragment implements DatePickerDialog.OnDateS
             @Override
             public void onResponse(Call<RequestDetail> call, Response<RequestDetail> response) {
                 if(response.isSuccessful()){
-                    if(response.body().ok)
-                        if(response.body().token) {
+                    if(response.body().ok) {
+                        if (response.body().token) {
                             fillContent(response.body().data);
                             detailData = response.body().data;
-                        }
-                }
+                        } else
+                            Functions.restartToMainActivity();
+                    } else
+                        Functions.showToastErrorMessage(getContext());
+                } else
+                    Functions.showToastErrorMessage(getContext());
             }
 
             @Override
             public void onFailure(Call<RequestDetail> call, Throwable t) {
-
+                Functions.showToastErrorMessage(getContext());
             }
         });
-
     }
 
     private void fillContent(RequestDetailData data) {
         String addressString="";
         addressString+=data.house;
-        if(!TextUtils.isEmpty(data.floor))
-            addressString+=" эт.: "+data.floor;
         if(!TextUtils.isEmpty(data.flat))
-            addressString+=" кв. "+data.flat;
+            addressString+="-"+data.flat;
+        if(!TextUtils.isEmpty(data.floor+","))
+            addressString+=" этаж : "+data.floor+",";
+
         if(!TextUtils.isEmpty(data.entr))
-            addressString+=" п. "+data.entr;
+            addressString+=" подъезд "+data.entr;
+
+        workTypeText.setText(data.rtype+". "+data.type+". "+data.ess);
+        noteText.setText(data.note);
 
         addressText.setText(addressString);
         aonText.setText(data.autophone);
         contPhoneText.setText(data.contphone);
-        noteText.setText(data.note);
-        workTypeText.setText(data.type+", "+data.ess);
 
-        String createdTitle="Создан ";
-        createdTitle+=data.createdBy+" "+data.createdAt;
 
-        if(!TextUtils.isEmpty(data.updatedAt))
-            createdTitle+=" \n Обновлена "+data.updatedAt;
 
+        String createdTitle="";
+        createdTitle+=data.createdAt+" "+data.createdBy;
         createdAtText.setText(createdTitle);
 
 
@@ -306,12 +309,6 @@ public class DetailFragment extends Fragment implements DatePickerDialog.OnDateS
 
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
 
     @Override
     public void onDetach() {
@@ -329,10 +326,7 @@ public class DetailFragment extends Fragment implements DatePickerDialog.OnDateS
                     int statusId=data.getIntExtra(Constants.statusId,-1);
                     int reasonId=data.getIntExtra(Constants.reasonId,-1);
                     if(detailData.statusId!=statusId) {
-                        if (statusId > 0 && reasonId > 0)
-                            updateStatusWithReason(statusId, reasonId);
-                        if (statusId > 0 && reasonId < 1)
-                            updateStatus(statusId);
+                       updateStatusWithReason(statusId,reasonId);
                     }
                 }
             }
@@ -363,32 +357,6 @@ public class DetailFragment extends Fragment implements DatePickerDialog.OnDateS
         }
     }
 
-    private void updateStatus(int statusId){
-        StatusUpdateAsk ask=new StatusUpdateAsk();
-        ask.act=Constants.setUpdateRequest;
-        ask.req=new RequestionDetailParams();
-        ask.req.requestId=requestId;
-        ask.data=new StatusUpdateData();
-        ask.data.statusId=statusId;
-        Call<RequestUpdate> updateCall=serverAPI.statusUpdateRequest(
-                Functions.encodeToBase64(PreferencesBuffer.getToken(getActivity().getApplication())),
-                ask);
-        updateCall.enqueue(new Callback<RequestUpdate>() {
-            @Override
-            public void onResponse(Call<RequestUpdate> call, Response<RequestUpdate> response) {
-                if(response.isSuccessful())
-                    if(response.body().ok)
-                        if(response.body().token)
-                            doRequest(requestId);
-            }
-
-            @Override
-            public void onFailure(Call<RequestUpdate> call, Throwable t) {
-
-            }
-        });
-    }
-
     private void updateStatusWithReason(int statusId, int reasonId) {
         StatusReasonUpdateAsk ask=new StatusReasonUpdateAsk();
         ask.act=Constants.setUpdateRequest;
@@ -396,7 +364,10 @@ public class DetailFragment extends Fragment implements DatePickerDialog.OnDateS
         ask.req.requestId=requestId;
         ask.data=new StatusReasonUpdateData();
         ask.data.statusId =statusId;
-        ask.data.reasonId=reasonId;
+        if(reasonId<1) {
+            ask.data.reasonId = null;
+        }
+        else ask.data.reasonId=reasonId;
         Call<RequestUpdate> updateCall=serverAPI.statusReasonUpdateRequest(
                 Functions.encodeToBase64(PreferencesBuffer.getToken(getActivity().getApplication())),
                  ask);

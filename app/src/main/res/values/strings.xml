@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ds24 android</string>
+    <string name="app_name">DS24</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -52,11 +52,13 @@
     <string name="write_your_comment">Напишите комментарий</string>
     <string name="send">Отправить</string>
 
-    <string name="aon_number">Звонил с: </string>
-    <string name="cont_number">Телефон заявителя: </string>
+    <string name="aon_number">Звонил с</string>
+    <string name="cont_number">Телефон заявителя</string>
     <string name="deadline">Срок исполнения</string>
 
     <string name="ok">OK</string>
+
+    <string name="something_went_wrong">Что-то пошло не так</string>
 
 
 </resources>

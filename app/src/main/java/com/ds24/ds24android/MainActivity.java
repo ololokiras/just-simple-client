@@ -31,6 +31,7 @@ import com.ds24.ds24android.utils.Functions;
 
 import java.util.ArrayList;
 
+import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -128,23 +129,26 @@ public class MainActivity extends AppCompatActivity
         requestionCall.enqueue(new Callback<Requestion>() {
             @Override
             public void onResponse(Call<Requestion> call, Response<Requestion> response) {
-                if(response.isSuccessful())
-                    if(response.body().ok) {
+                if(response.isSuccessful()) {
+                    if (response.body().ok) {
                         if (response.body().token) {
-                            dataRequests=response.body().data;
+                            dataRequests = response.body().data;
 
                             stopProgress();
                             fillRecycler();
                             swipeRefreshLayout.setRefreshing(false);
-                        }
-                        else
-                            logOut();
-                    }
+                        } else
+                            Functions.restartToMainActivity();
+                    } else
+                        Functions.showToastErrorMessage(ctx);
+                } else
+                    Functions.showToastErrorMessage(ctx);
+
             }
 
             @Override
             public void onFailure(Call<Requestion> call, Throwable t) {
-
+                Functions.showToastErrorMessage(ctx);
             }
         });
     }
@@ -177,35 +181,34 @@ public class MainActivity extends AppCompatActivity
         requestionCall.enqueue(new Callback<Requestion>() {
             @Override
             public void onResponse(Call<Requestion> call, Response<Requestion> response) {
-                if(response.isSuccessful())
-                    if(response.body().ok)
-                        if(response.body().token){
-                            dataRequests.remove(dataRequests.size()-1);
-                            ArrayList<DataRequest> results=response.body().data;
-                            if(results.size()>0){
+                if(response.isSuccessful()) {
+                    if (response.body().ok) {
+                        if (response.body().token) {
+                            dataRequests.remove(dataRequests.size() - 1);
+                            ArrayList<DataRequest> results = response.body().data;
+                            if (results.size() > 0) {
                                 dataRequests.addAll(results);
                                 requestAdapter.setMoreDataAvailable(true);
 
                                 //fillRecycler();
-                                if(results.size()< Constants.paginationSize)
+                                if (results.size() < Constants.paginationSize)
                                     requestAdapter.setMoreDataAvailable(false);
-                            }
-
-
-
-                            else {
+                            } else {
                                 requestAdapter.setMoreDataAvailable(false);
                             }
                             requestAdapter.notifyDataChanged();
                             swipeRefreshLayout.setRefreshing(false);
-                        }
-                        else
-                            logOut();
+                        } else
+                            Functions.restartToMainActivity();
+                    } else
+                        Functions.showToastErrorMessage(ctx);
+                } else
+                    Functions.showToastErrorMessage(ctx);
             }
 
             @Override
             public void onFailure(Call<Requestion> call, Throwable t) {
-
+                Functions.showToastErrorMessage(ctx);
             }
         });
     }
@@ -299,6 +302,7 @@ public class MainActivity extends AppCompatActivity
             return true;
         }
 
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -318,7 +322,11 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if(id==R.id.nav_logout){
-            logOut();
+            Functions.restartToMainActivity();
+        }
+
+        if(id==R.id.nav_requests){
+            initUI();
         }
 
 
@@ -327,12 +335,6 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    private void logOut() {
-        PreferencesBuffer.eraseToken(this);
-        Intent intent=getIntent();
-        finish();
-        startActivity(intent);
-    }
 
     @Override
     protected void onResume(){

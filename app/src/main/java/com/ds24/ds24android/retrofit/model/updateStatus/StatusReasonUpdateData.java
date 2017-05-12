@@ -13,6 +13,5 @@ public class StatusReasonUpdateData {
     public int statusId;
 
     @SerializedName("reason_id")
-    @Expose
-    public int reasonId;
+    public Integer reasonId=null;
 }

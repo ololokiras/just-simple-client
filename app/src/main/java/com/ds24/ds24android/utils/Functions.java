@@ -13,8 +13,12 @@ import android.util.Base64;
 
 import com.ds24.ds24android.DS24Application;
 import com.ds24.ds24android.Filter;
+import com.ds24.ds24android.R;
 import com.ds24.ds24android.repository.Constants;
+import com.ds24.ds24android.repository.PreferencesBuffer;
 import com.ds24.ds24android.retrofit.model.login.LoginJson;
+
+import es.dmoral.toasty.Toasty;
 
 /**
  * Created by well on 22.04.2017.
@@ -39,6 +43,7 @@ public class Functions {
 
     public static void restartToMainActivity(){
         Context baseContext= DS24Application.getInstance().getBaseContext();
+        PreferencesBuffer.eraseToken(baseContext);
         Intent i=baseContext.getPackageManager().getLaunchIntentForPackage(baseContext.getPackageName());
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         baseContext.startActivity(i);
@@ -47,6 +52,10 @@ public class Functions {
     public static String prepareTreeToSimpleString(String source){
         String result=source.replace(".","").replace("|","");
         return result;
+    }
+
+    public static void showToastErrorMessage(Context ctx){
+        Toasty.error(ctx,ctx.getString(R.string.something_went_wrong)).show();
     }
 
     public static boolean compareFilterState(){

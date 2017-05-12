@@ -1,5 +1,6 @@
 package com.ds24.ds24android;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -28,11 +29,13 @@ public class ResponsibleChangeActivity extends AppCompatActivity implements Resp
     ServerAPI serverAPI;
     ResponsibleAdapter responsibleAdapter;
     int incomeResponsibleId;
+    Context ctx;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_responsible_change);
+        this.ctx=this;
+        setContentView(R.layout.activity_simple_recycler);
         serverAPI=ServerAPI.retrofit.create(ServerAPI.class);
         incomeResponsibleId=getIntent().getIntExtra(Constants.responsibleId,-1);
         initUI();
@@ -40,7 +43,7 @@ public class ResponsibleChangeActivity extends AppCompatActivity implements Resp
     }
 
     private void initUI() {
-        responsibleChangeRecycler=(RecyclerView)findViewById(R.id.responsible_change_recycler);
+        responsibleChangeRecycler=(RecyclerView)findViewById(R.id.recycler);
         responsibleChangeRecycler.setHasFixedSize(true);
         responsibleChangeRecycler.setLayoutManager(new LinearLayoutManager(this));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -55,15 +58,19 @@ public class ResponsibleChangeActivity extends AppCompatActivity implements Resp
         responseCall.enqueue(new Callback<ResponsibleResponse>() {
             @Override
             public void onResponse(Call<ResponsibleResponse> call, Response<ResponsibleResponse> response) {
-                if(response.isSuccessful())
-                    if(response.body().ok)
-                        if(response.body().token)
+                if(response.isSuccessful()) {
+                    if (response.body().ok)
+                        if (response.body().token) {
                             fillRecycler(response.body().data);
+                        } else
+                            Functions.restartToMainActivity();
+                } else
+                    Functions.showToastErrorMessage(ctx);
             }
 
             @Override
             public void onFailure(Call<ResponsibleResponse> call, Throwable t) {
-
+                Functions.showToastErrorMessage(ctx);
             }
         });
     }

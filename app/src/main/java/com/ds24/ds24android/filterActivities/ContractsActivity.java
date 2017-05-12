@@ -1,5 +1,6 @@
 package com.ds24.ds24android.filterActivities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -29,18 +30,20 @@ public class ContractsActivity extends AppCompatActivity implements ContractorsA
     ContractorsAdapter adapter;
     ServerAPI serverAPI;
     RecyclerView contractorsRecycler;
+    Context ctx;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_contracts);
+        this.ctx=this;
+        setContentView(R.layout.activity_simple_recycler);
         serverAPI=ServerAPI.retrofit.create(ServerAPI.class);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         initUI();
     }
 
     private void initUI() {
-        contractorsRecycler=(RecyclerView)findViewById(R.id.contractors_recycler);
+        contractorsRecycler=(RecyclerView)findViewById(R.id.recycler);
         LinearLayoutManager layoutManager=new LinearLayoutManager(this);
         contractorsRecycler.setLayoutManager(layoutManager);
         contractorsRecycler.setHasFixedSize(true);
@@ -56,16 +59,22 @@ public class ContractsActivity extends AppCompatActivity implements ContractorsA
         contractorResponseCall.enqueue(new Callback<ContractorResponse>() {
             @Override
             public void onResponse(Call<ContractorResponse> call, Response<ContractorResponse> response) {
-                if(response.isSuccessful())
-                    if(response.body().ok)
+                if(response.isSuccessful()){
+                    if(response.body().ok){
                         if(response.body().token) {
                             fillRecycler(response.body().data);
-                        }
+                        } else
+                            Functions.restartToMainActivity();
+                    } else
+                        Functions.showToastErrorMessage(ctx);
+                } else
+                    Functions.showToastErrorMessage(ctx);
+
             }
 
             @Override
             public void onFailure(Call<ContractorResponse> call, Throwable t) {
-
+                Functions.showToastErrorMessage(ctx);
             }
         });
     }

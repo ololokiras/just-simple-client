@@ -1,5 +1,6 @@
 package com.ds24.ds24android.filterActivities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -32,18 +33,20 @@ public class HouseActivity extends AppCompatActivity implements HouseAdapter.Hou
     HouseAdapter adapter;
     ServerAPI serverAPI;
     RecyclerView houseRecycler;
+    Context ctx;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_house);
+        this.ctx=this;
+        setContentView(R.layout.activity_simple_recycler);
         serverAPI=ServerAPI.retrofit.create(ServerAPI.class);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         initUI();
     }
 
     private void initUI() {
-        houseRecycler=(RecyclerView)findViewById(R.id.house_recycler);
+        houseRecycler=(RecyclerView)findViewById(R.id.recycler);
         LinearLayoutManager layoutManager=new LinearLayoutManager(this);
         houseRecycler.setLayoutManager(layoutManager);
         houseRecycler.setHasFixedSize(true);
@@ -67,16 +70,22 @@ public class HouseActivity extends AppCompatActivity implements HouseAdapter.Hou
         houseCall.enqueue(new Callback<HouseResponse>() {
             @Override
             public void onResponse(Call<HouseResponse> call, Response<HouseResponse> response) {
-                if(response.isSuccessful())
-                    if(response.body().ok)
+                if(response.isSuccessful()){
+                    if(response.body().ok){
                         if(response.body().token){
                             fillRecycler(response.body().data);
-                        }
+                        } else
+                            Functions.restartToMainActivity();
+                    } else
+                            Functions.showToastErrorMessage(ctx);
+                } else
+                Functions.showToastErrorMessage(ctx);
             }
+
 
             @Override
             public void onFailure(Call<HouseResponse> call, Throwable t) {
-
+                Functions.showToastErrorMessage(ctx);
             }
         });
     }

@@ -1,5 +1,6 @@
 package com.ds24.ds24android.filterActivities;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -30,18 +31,20 @@ public class ReasonActivity extends AppCompatActivity implements ReasonAdapter.R
     ReasonAdapter adapter;
     ServerAPI serverAPI;
     RecyclerView reasonRecycler;
+    Context ctx;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_reason);
+        this.ctx=this;
+        setContentView(R.layout.activity_simple_recycler);
         serverAPI= ServerAPI.retrofit.create(ServerAPI.class);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         initUI();
     }
 
     private void initUI() {
-        reasonRecycler=(RecyclerView)findViewById(R.id.reason_recycler);
+        reasonRecycler=(RecyclerView)findViewById(R.id.recycler);
         LinearLayoutManager layoutManager=new LinearLayoutManager(this);
         reasonRecycler.setLayoutManager(layoutManager);
         reasonRecycler.setHasFixedSize(true);
@@ -62,16 +65,21 @@ public class ReasonActivity extends AppCompatActivity implements ReasonAdapter.R
         callReason.enqueue(new Callback<ReasonResponse>() {
             @Override
             public void onResponse(Call<ReasonResponse> call, Response<ReasonResponse> response) {
-                if(response.isSuccessful())
-                    if(response.body().ok)
+                if(response.isSuccessful()){
+                    if(response.body().ok){
                         if(response.body().token){
                             fillRecycler(response.body().data);
-                        }
+                        } else
+                            Functions.restartToMainActivity();
+                    } else
+                            Functions.showToastErrorMessage(ctx);
+                } else
+                Functions.showToastErrorMessage(ctx);
             }
 
             @Override
             public void onFailure(Call<ReasonResponse> call, Throwable t) {
-
+                Functions.showToastErrorMessage(ctx);
             }
         });
     }

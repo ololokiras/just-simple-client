@@ -102,17 +102,23 @@ public class CommentsFragment extends Fragment {
         updateCall.enqueue(new Callback<RequestUpdate>() {
             @Override
             public void onResponse(Call<RequestUpdate> call, Response<RequestUpdate> response) {
-                if(response.isSuccessful())
-                    if (response.body().ok)
+                if(response.isSuccessful()){
+                    if (response.body().ok){
                         if(response.body().token) {
                             doRequest(requestId);
                             commentEdit.setText("");
-                        }
+                        } else
+                            Functions.restartToMainActivity();
+                    } else
+                        Functions.showToastErrorMessage(getContext());
+                } else
+                    Functions.showToastErrorMessage(getContext());
+
             }
 
             @Override
             public void onFailure(Call<RequestUpdate> call, Throwable t) {
-
+                Functions.showToastErrorMessage(getContext());
             }
         });
     }
@@ -132,15 +138,22 @@ public class CommentsFragment extends Fragment {
         callComments.enqueue(new Callback<Comments>() {
             @Override
             public void onResponse(Call<Comments> call, Response<Comments> response) {
-                if(response.isSuccessful())
-                    if(response.body().ok==true)
-                        if(response.body().token==true)
+                if(response.isSuccessful()){
+                    if(response.body().ok){
+                        if(response.body().token)
                             fillContent(response.body().data);
+                        else
+                            Functions.restartToMainActivity();
+                    } else
+                        Functions.showToastErrorMessage(getContext());
+                } else
+                    Functions.showToastErrorMessage(getContext());
+
             }
 
             @Override
             public void onFailure(Call<Comments> call, Throwable t) {
-
+                Functions.showToastErrorMessage(getContext());
             }
         });
     }

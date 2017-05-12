@@ -1,5 +1,6 @@
 package com.ds24.ds24android.filterActivities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -32,18 +33,20 @@ public class StreetActivity extends AppCompatActivity implements StreetAdapter.S
     StreetAdapter adapter;
     ServerAPI serverAPI;
     RecyclerView streetsRecycler;
+    Context ctx;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_street);
+        this.ctx=this;
+        setContentView(R.layout.activity_simple_recycler);
         serverAPI=ServerAPI.retrofit.create(ServerAPI.class);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         initUI();
     }
 
     private void initUI() {
-        streetsRecycler=(RecyclerView)findViewById(R.id.street_recycler);
+        streetsRecycler=(RecyclerView)findViewById(R.id.recycler);
         LinearLayoutManager layoutManager=new LinearLayoutManager(this);
         streetsRecycler.setLayoutManager(layoutManager);
         streetsRecycler.setHasFixedSize(true);
@@ -71,16 +74,21 @@ public class StreetActivity extends AppCompatActivity implements StreetAdapter.S
         streetCall.enqueue(new Callback<StreetResponse>() {
             @Override
             public void onResponse(Call<StreetResponse> call, Response<StreetResponse> response) {
-                if(response.isSuccessful())
-                    if(response.body().ok)
-                        if(response.body().token){
+                if(response.isSuccessful()){
+                    if(response.body().ok){
+                        if(response.body().token)
                             fillRecycler(response.body().data);
-                        }
-            }
+                        else
+                            Functions.restartToMainActivity();
+                        } else
+                            Functions.showToastErrorMessage(ctx);
+                    } else
+                        Functions.showToastErrorMessage(ctx);
+                }
 
             @Override
             public void onFailure(Call<StreetResponse> call, Throwable t) {
-
+                Functions.showToastErrorMessage(ctx);
             }
         });
     }

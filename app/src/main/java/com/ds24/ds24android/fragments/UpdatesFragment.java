@@ -117,15 +117,23 @@ public class UpdatesFragment extends Fragment {
         callChanges.enqueue(new Callback<Updates>() {
             @Override
             public void onResponse(Call<Updates> call, Response<Updates> response) {
-                if(response.isSuccessful())
-                    if(response.body().ok)
+                if(response.isSuccessful()){
+                    if(response.body().ok){
                         if(response.body().token)
                             fillContent(response.body().data);
+                        else
+                            Functions.restartToMainActivity();
+                    } else
+                        Functions.showToastErrorMessage(getContext());
+                } else
+                    Functions.showToastErrorMessage(getContext());
+
             }
+
 
             @Override
             public void onFailure(Call<Updates> call, Throwable t) {
-
+                Functions.showToastErrorMessage(getContext());
             }
         });
     }

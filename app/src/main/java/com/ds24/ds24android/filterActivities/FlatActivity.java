@@ -1,5 +1,6 @@
 package com.ds24.ds24android.filterActivities;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -29,18 +30,20 @@ public class FlatActivity extends AppCompatActivity implements FlatAdapter.FlatS
     FlatAdapter adapter;
     ServerAPI serverAPI;
     RecyclerView flatRecycler;
+    Context ctx;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_flat);
+        this.ctx=this;
+        setContentView(R.layout.activity_simple_recycler);
         serverAPI=ServerAPI.retrofit.create(ServerAPI.class);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         initUI();
     }
 
     private void initUI() {
-        flatRecycler=(RecyclerView)findViewById(R.id.flat_recycler);
+        flatRecycler=(RecyclerView)findViewById(R.id.recycler);
         LinearLayoutManager layoutManager=new LinearLayoutManager(this);
         flatRecycler.setLayoutManager(layoutManager);
         flatRecycler.setHasFixedSize(true);
@@ -62,16 +65,22 @@ public class FlatActivity extends AppCompatActivity implements FlatAdapter.FlatS
         callFlat.enqueue(new Callback<FlatResponse>() {
             @Override
             public void onResponse(Call<FlatResponse> call, Response<FlatResponse> response) {
-                if(response.isSuccessful())
-                    if(response.body().ok)
+                if(response.isSuccessful()){
+                    if(response.body().ok){
                         if(response.body().token){
                             fillRecycler(response.body().data);
-                        }
+                        } else
+                            Functions.restartToMainActivity();
+                    } else
+                        Functions.showToastErrorMessage(ctx);
+                } else
+                    Functions.showToastErrorMessage(ctx);
             }
+
 
             @Override
             public void onFailure(Call<FlatResponse> call, Throwable t) {
-
+                Functions.showToastErrorMessage(ctx);
             }
         });
 

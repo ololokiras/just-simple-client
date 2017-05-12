@@ -1,5 +1,6 @@
 package com.ds24.ds24android.filterActivities;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -28,18 +29,20 @@ public class RequestTypeActivity extends AppCompatActivity implements RequestTyp
     RequestTypeAdapter adapter;
     ServerAPI serverAPI;
     RecyclerView requestTypeRecycler;
+    Context ctx;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_request_type);
+        this.ctx=this;
+        setContentView(R.layout.activity_simple_recycler);
         serverAPI=ServerAPI.retrofit.create(ServerAPI.class);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         initUI();
     }
 
     private void initUI() {
-        requestTypeRecycler=(RecyclerView)findViewById(R.id.request_type_recycler);
+        requestTypeRecycler=(RecyclerView)findViewById(R.id.recycler);
         LinearLayoutManager layoutManager=new LinearLayoutManager(this);
         requestTypeRecycler.setLayoutManager(layoutManager);
         requestTypeRecycler.setHasFixedSize(true);
@@ -55,16 +58,21 @@ public class RequestTypeActivity extends AppCompatActivity implements RequestTyp
         callRequestType.enqueue(new Callback<RequestTypeResponse>() {
             @Override
             public void onResponse(Call<RequestTypeResponse> call, Response<RequestTypeResponse> response) {
-                if(response.isSuccessful())
-                    if(response.body().ok)
+                if(response.isSuccessful()){
+                    if(response.body().ok){
                         if(response.body().token){
                             fillRecycler(response.body().data);
-                        }
+                        } else
+                            Functions.restartToMainActivity();
+                    } else
+                            Functions.showToastErrorMessage(ctx);
+                } else
+                Functions.showToastErrorMessage(ctx);
             }
 
             @Override
             public void onFailure(Call<RequestTypeResponse> call, Throwable t) {
-
+                Functions.showToastErrorMessage(ctx);
             }
         });
     }

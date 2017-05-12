@@ -1,5 +1,6 @@
 package com.ds24.ds24android.filterActivities;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -29,11 +30,13 @@ public class StatusActivity extends AppCompatActivity implements StatusAdapter.S
     StatusAdapter adapter;
     ServerAPI serverAPI;
     RecyclerView statusRecycler;
+    Context ctx;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_status);
+        this.ctx=this;
+        setContentView(R.layout.activity_simple_recycler);
         serverAPI=ServerAPI.retrofit.create(ServerAPI.class);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         initUI();
@@ -41,7 +44,7 @@ public class StatusActivity extends AppCompatActivity implements StatusAdapter.S
     }
 
     private void initUI() {
-        statusRecycler=(RecyclerView)findViewById(R.id.status_recycler);
+        statusRecycler=(RecyclerView)findViewById(R.id.recycler);
         LinearLayoutManager layoutManager=new LinearLayoutManager(this);
         statusRecycler.setLayoutManager(layoutManager);
         statusRecycler.setHasFixedSize(true);
@@ -56,15 +59,20 @@ public class StatusActivity extends AppCompatActivity implements StatusAdapter.S
         statusCall.enqueue(new Callback<StatusResponse>() {
             @Override
             public void onResponse(Call<StatusResponse> call, Response<StatusResponse> response) {
-                if(response.isSuccessful())
-                    if(response.body().ok)
+                if(response.isSuccessful()){
+                    if(response.body().ok){
                         if(response.body().token)
                             fillRecycler(response.body().data);
+                         else
+                                Functions.restartToMainActivity();
+                    } else
+                    Functions.showToastErrorMessage(ctx);
+                } else
+                    Functions.showToastErrorMessage(ctx);
             }
-
             @Override
             public void onFailure(Call<StatusResponse> call, Throwable t) {
-
+                Functions.showToastErrorMessage(ctx);
             }
         });
     }

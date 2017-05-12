@@ -1,5 +1,6 @@
 package com.ds24.ds24android;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -29,10 +30,13 @@ public class ReasonStatusSelectActivity extends AppCompatActivity implements Sta
     ServerAPI serverAPI;
     StatusReasonAdapter statusReasonAdapter;
     int statusId;
+    Context ctx;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_reason_status_select);
+        this.ctx=this;
+        setContentView(R.layout.activity_simple_recycler);
         statusId =getIntent().getIntExtra(Constants.statusId,-1);
         serverAPI= ServerAPI.retrofit.create(ServerAPI.class);
         initUI();
@@ -41,7 +45,7 @@ public class ReasonStatusSelectActivity extends AppCompatActivity implements Sta
 
 
     private void initUI() {
-        reasonRecycler=(RecyclerView)findViewById(R.id.reason_recycler);
+        reasonRecycler=(RecyclerView)findViewById(R.id.recycler);
         reasonRecycler.setHasFixedSize(true);
         reasonRecycler.setLayoutManager(new LinearLayoutManager(this));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -59,16 +63,23 @@ public class ReasonStatusSelectActivity extends AppCompatActivity implements Sta
         call.enqueue(new Callback<StatusReasonResponse>() {
             @Override
             public void onResponse(Call<StatusReasonResponse> call, Response<StatusReasonResponse> response) {
-                if(response.isSuccessful())
-                    if(response.body().ok)
-                        if(response.body().token)
+                if(response.isSuccessful()) {
+                    if (response.body().ok) {
+                        if (response.body().token) {
                             fillRecycler(response.body().data);
-
+                        } else {
+                            Functions.restartToMainActivity();
+                        }
+                    } else
+                        Functions.showToastErrorMessage(ctx);
+                }
+                else
+                    Functions.showToastErrorMessage(ctx);
             }
 
             @Override
             public void onFailure(Call<StatusReasonResponse> call, Throwable t) {
-
+                Functions.showToastErrorMessage(ctx);
             }
         });
     }

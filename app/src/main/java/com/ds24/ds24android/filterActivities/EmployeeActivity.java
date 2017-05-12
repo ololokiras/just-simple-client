@@ -1,5 +1,6 @@
 package com.ds24.ds24android.filterActivities;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -28,18 +29,20 @@ public class EmployeeActivity extends AppCompatActivity implements EmployeeAdapt
     EmployeeAdapter adapter;
     ServerAPI serverAPI;
     RecyclerView employeeRecycler;
+    Context ctx;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_employee);
+        setContentView(R.layout.activity_simple_recycler);
+        this.ctx=this;
         serverAPI= ServerAPI.retrofit.create(ServerAPI.class);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         initUI();
     }
 
     private void initUI() {
-        employeeRecycler=(RecyclerView)findViewById(R.id.employee_recycler);
+        employeeRecycler=(RecyclerView)findViewById(R.id.recycler);
         LinearLayoutManager layoutManager=new LinearLayoutManager(this);
         employeeRecycler.setLayoutManager(layoutManager);
         employeeRecycler.setHasFixedSize(true);
@@ -55,16 +58,21 @@ public class EmployeeActivity extends AppCompatActivity implements EmployeeAdapt
         callEmployee.enqueue(new Callback<EmployeeResponse>() {
             @Override
             public void onResponse(Call<EmployeeResponse> call, Response<EmployeeResponse> response) {
-                if(response.isSuccessful())
-                    if(response.body().ok)
+                if(response.isSuccessful()){
+                    if(response.body().ok){
                         if(response.body().token){
                             fillRecycler(response.body().data);
-                        }
+                        } else
+                            Functions.restartToMainActivity();
+                    } else
+                        Functions.showToastErrorMessage(ctx);
+                } else
+                    Functions.showToastErrorMessage(ctx);
             }
 
             @Override
             public void onFailure(Call<EmployeeResponse> call, Throwable t) {
-
+                Functions.showToastErrorMessage(ctx);
             }
         });
     }

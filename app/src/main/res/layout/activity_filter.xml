@@ -27,9 +27,7 @@
 
             <ImageView
                 android:id="@+id/contractors_delete"
-                style="@style/clear_filter_button"
-
-             />
+                style="@style/clear_filter_button"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -83,7 +81,7 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="4dp"
+            android:layout_height="1dp"
             android:background="@color/divider_color"/>
 
 
@@ -122,7 +120,7 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="4dp"
+            android:layout_height="1dp"
             android:background="@color/divider_color"/>
 
 
@@ -161,7 +159,7 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="4dp"
+            android:layout_height="1dp"
             android:background="@color/divider_color"/>
 
 
@@ -200,7 +198,7 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="4dp"
+            android:layout_height="1dp"
             android:background="@color/divider_color"/>
 
         <RelativeLayout
@@ -222,7 +220,7 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="4dp"
+            android:layout_height="1dp"
             android:background="@color/divider_color"/>
 
         <RelativeLayout

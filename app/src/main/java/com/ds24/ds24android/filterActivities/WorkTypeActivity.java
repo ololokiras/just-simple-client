@@ -1,5 +1,6 @@
 package com.ds24.ds24android.filterActivities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -29,19 +30,20 @@ public class WorkTypeActivity extends AppCompatActivity implements WorkTypeAdapt
     WorkTypeAdapter adapter;
     ServerAPI serverAPI;
     RecyclerView workTypeRecycler;
-
+    Context ctx;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_work_type);
+        this.ctx=this;
+        setContentView(R.layout.activity_simple_recycler);
         serverAPI= ServerAPI.retrofit.create(ServerAPI.class);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         initUI();
     }
 
     private void initUI() {
-        workTypeRecycler=(RecyclerView)findViewById(R.id.work_type_recycler);
+        workTypeRecycler=(RecyclerView)findViewById(R.id.recycler);
         LinearLayoutManager layoutManager=new LinearLayoutManager(this);
         workTypeRecycler.setLayoutManager(layoutManager);
         workTypeRecycler.setHasFixedSize(true);
@@ -57,17 +59,20 @@ public class WorkTypeActivity extends AppCompatActivity implements WorkTypeAdapt
         callWorkType.enqueue(new Callback<WorkTypeResponse>() {
             @Override
             public void onResponse(Call<WorkTypeResponse> call, Response<WorkTypeResponse> response) {
-                if(response.isSuccessful())
-                    if(response.body().ok)
-                        if(response.body().token){
+                if(response.isSuccessful()){
+                    if(response.body().ok){
+                        if(response.body().token)
                             fillRecycler(response.body().data);
-                        }
-
+                         else
+                            Functions.restartToMainActivity();
+                        } else
+                                Functions.showToastErrorMessage(ctx);
+                    } else
+                    Functions.showToastErrorMessage(ctx);
             }
-
             @Override
             public void onFailure(Call<WorkTypeResponse> call, Throwable t) {
-
+                Functions.showToastErrorMessage(ctx);
             }
         });
 

@@ -37,6 +37,7 @@ import com.ds24.ds24android.retrofit.model.updateStatus.StatusReasonUpdateAsk;
 import com.ds24.ds24android.retrofit.model.updateStatus.StatusUpdateAsk;
 import com.ds24.ds24android.retrofit.model.updates.Updates;
 import com.ds24.ds24android.retrofit.model.workType.WorkTypeResponse;
+import com.google.gson.GsonBuilder;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import java.util.concurrent.TimeUnit;
@@ -69,7 +70,7 @@ public interface ServerAPI {
     public static Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(Constants.baseURL)
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().serializeNulls().create()))
             .client(client)
             .build();
 
