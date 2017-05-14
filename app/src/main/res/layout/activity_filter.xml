@@ -20,7 +20,6 @@
                 style="@style/primary_text"/>
 
             <TextView
-                android:id="@+id/contractors_desc"
                 style="@style/second_text"
                 android:layout_below="@id/contractor_selected"
                 android:text="@string/contractors" />
@@ -37,7 +36,6 @@
                 android:id="@+id/street_selected"
                 style="@style/primary_text"/>
             <TextView
-                android:id="@+id/street_desc"
                 style="@style/second_text"
                 android:text="@string/street"
                 android:layout_below="@id/street_selected"/>
@@ -53,7 +51,6 @@
                 android:id="@+id/house_selected"
                 style="@style/primary_text"/>
             <TextView
-                android:id="@+id/house_desc"
                 style="@style/second_text"
                 android:text="@string/house"
                 android:layout_below="@id/house_selected"/>
@@ -69,7 +66,6 @@
                 android:id="@+id/flat_selected"
                 style="@style/primary_text"/>
             <TextView
-                android:id="@+id/flat_desc"
                 android:text="@string/flat"
                 style="@style/second_text"
                 android:layout_below="@id/flat_selected"/>
@@ -92,7 +88,6 @@
                 android:id="@+id/work_type_selected"
                 style="@style/primary_text"/>
             <TextView
-                android:id="@+id/work_type_desc"
                 style="@style/second_text"
                 android:text="@string/work_type"
                 android:layout_below="@id/work_type_selected"/>
@@ -108,7 +103,6 @@
                 android:id="@+id/reason_selected"
                 style="@style/primary_text"/>
             <TextView
-                android:id="@+id/reason_title"
                 style="@style/second_text"
                 android:text="@string/reason_of_call"
                 android:layout_below="@id/reason_selected"/>
@@ -131,7 +125,6 @@
                 android:id="@+id/responsible_selected"
                 style="@style/primary_text"/>
             <TextView
-                android:id="@+id/responsible_title"
                 style="@style/second_text"
                 android:text="@string/responsible"
                 android:layout_below="@id/responsible_selected"/>
@@ -147,7 +140,6 @@
                 android:id="@+id/employee_selected"
                 style="@style/primary_text"/>
             <TextView
-                android:id="@+id/responsible_desc"
                 style="@style/second_text"
                 android:text="@string/employee"
                 android:layout_below="@id/employee_selected"/>
@@ -170,7 +162,6 @@
                 android:id="@+id/status_selected"
                 style="@style/primary_text"/>
             <TextView
-                android:id="@+id/status_desc"
                 style="@style/second_text"
                 android:text="@string/status"
                 android:layout_below="@id/status_selected"/>
@@ -186,7 +177,6 @@
                 android:id="@+id/request_type_selected"
                 style="@style/primary_text"/>
             <TextView
-                android:id="@+id/request_type_desc"
                 style="@style/second_text"
                 android:text="@string/request_type"
                 android:layout_below="@id/request_type_selected" />
@@ -208,7 +198,6 @@
                 android:id="@+id/period_selected"
                 style="@style/primary_text"/>
             <TextView
-                android:id="@+id/period_desc"
                 style="@style/second_text"
                 android:layout_below="@id/period_selected"
                 android:text="@string/period" />

@@ -4,10 +4,10 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.util.Base64;
 
@@ -17,6 +17,8 @@ import com.ds24.ds24android.R;
 import com.ds24.ds24android.repository.Constants;
 import com.ds24.ds24android.repository.PreferencesBuffer;
 import com.ds24.ds24android.retrofit.model.login.LoginJson;
+
+import java.util.concurrent.TimeoutException;
 
 import es.dmoral.toasty.Toasty;
 
@@ -55,7 +57,7 @@ public class Functions {
     }
 
     public static void showToastErrorMessage(Context ctx){
-        Toasty.error(ctx,ctx.getString(R.string.something_went_wrong)).show();
+        Toasty.error(ctx,ctx.getString(R.string.operation_error)).show();
     }
 
     public static boolean compareFilterState(){
@@ -162,12 +164,23 @@ public class Functions {
         return true;
     }
 
-    public static boolean hasPermissions(Context context) {
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && context != null && Manifest.permission.CALL_PHONE != null) {
-                if (ActivityCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                    return false;
-                }
-            }
-        return true;
+
+    public static boolean isOnline(Context ctx) {
+        ConnectivityManager cm =
+                (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
+    }
+
+    public static String fetchErrorMessage(Throwable throwable, Context ctx) {
+        String errorMsg = ctx.getResources().getString(R.string.operation_error);
+
+        if (!Functions.isOnline(ctx)) {
+            errorMsg = ctx.getResources().getString(R.string.internet_connection_error);
+        } else if (throwable instanceof TimeoutException) {
+            errorMsg = ctx.getResources().getString(R.string.internet_connection_error);
+        }
+
+        return errorMsg;
     }
 }

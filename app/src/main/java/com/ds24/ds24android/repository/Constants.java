@@ -62,7 +62,6 @@ public class Constants {
     public static String workType="workType";
 
     public static String requestId="requestId";
-    public static String statusChange="statusChange";
     public static String responsibleChange="responsibleChange";
     public static String employeeChange="employeeChange";
     public static String statusId="statusId";

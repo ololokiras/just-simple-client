@@ -14,7 +14,6 @@
             android:layout_height="wrap_content">
 
             <RelativeLayout
-                android:id="@+id/parent_detail_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -131,7 +130,6 @@
                        android:id="@+id/status_value"
                        style="@style/primary_text_without_size" />
                     <TextView
-                        android:id="@+id/status_desc"
                         style="@style/second_text_without_size"
                         android:layout_below="@id/status_value"
                         android:text="@string/status" />
@@ -158,7 +156,6 @@
                         android:id="@+id/employee_value"
                         style="@style/primary_text_without_size" />
                     <TextView
-                        android:id="@+id/employee_desc"
                         style="@style/second_text_without_size"
                         android:layout_below="@id/employee_value"
                         android:text="@string/employee" />
@@ -185,7 +182,6 @@
                         android:id="@+id/responsible_value"
                         style="@style/primary_text_without_size" />
                     <TextView
-                        android:id="@+id/responsible_desc"
                         style="@style/second_text_without_size"
                         android:layout_below="@id/responsible_value"
                         android:text="@string/responsible" />
@@ -212,7 +208,6 @@
                         android:id="@+id/deadline_value"
                         style="@style/primary_text_without_size" />
                     <TextView
-                        android:id="@+id/deadline_desc"
                         style="@style/second_text_without_size"
                         android:layout_below="@id/deadline_value"
                         android:text="@string/deadline" />

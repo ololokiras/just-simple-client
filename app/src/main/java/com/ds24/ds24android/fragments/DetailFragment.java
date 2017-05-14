@@ -50,6 +50,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
+import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -169,7 +170,6 @@ public class DetailFragment extends Fragment implements DatePickerDialog.OnDateS
         swipeRefreshLayout.setOnRefreshListener(()->doRequest(requestId));
         doRequest(requestId);
 
-
         return rootView;
     }
 
@@ -191,17 +191,15 @@ public class DetailFragment extends Fragment implements DatePickerDialog.OnDateS
                         if (response.body().token) {
                             fillContent(response.body().data);
                             detailData = response.body().data;
-                        } else
-                            Functions.restartToMainActivity();
-                    } else
-                        Functions.showToastErrorMessage(getContext());
-                } else
-                    Functions.showToastErrorMessage(getContext());
+                        } else Functions.restartToMainActivity();
+                    } else Functions.showToastErrorMessage(getContext());
+                } else Functions.showToastErrorMessage(getContext());
             }
 
             @Override
             public void onFailure(Call<RequestDetail> call, Throwable t) {
-                Functions.showToastErrorMessage(getContext());
+                Toasty.error(getContext(),Functions.fetchErrorMessage(t,getContext())).show();
+                swipeRefreshLayout.setRefreshing(false);
             }
         });
     }
@@ -223,8 +221,6 @@ public class DetailFragment extends Fragment implements DatePickerDialog.OnDateS
         addressText.setText(addressString);
         aonText.setText(data.autophone);
         contPhoneText.setText(data.contphone);
-
-
 
         String createdTitle="";
         createdTitle+=data.createdAt+" "+data.createdBy;

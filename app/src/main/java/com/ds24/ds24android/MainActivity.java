@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.design.widget.NavigationView;
@@ -13,12 +14,15 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import com.ds24.ds24android.adapters.RequestAdapter;
+import com.ds24.ds24android.adapters.PaginationAdapter;
+import com.ds24.ds24android.adapters.PaginationAdapterCallback;
+import com.ds24.ds24android.adapters.PaginationScrollListener;
 import com.ds24.ds24android.repository.Constants;
 import com.ds24.ds24android.repository.PreferencesBuffer;
 import com.ds24.ds24android.retrofit.ServerAPI;
@@ -30,6 +34,7 @@ import com.ds24.ds24android.retrofit.model.statusTree.StatusResponseData;
 import com.ds24.ds24android.utils.Functions;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeoutException;
 
 import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
@@ -37,7 +42,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, RequestAdapter.OnRequestSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, PaginationAdapter.OnRequestSelectedListener,
+        PaginationAdapterCallback{
 
     Context ctx;
     ServerAPI serverAPI;
@@ -47,7 +53,10 @@ public class MainActivity extends AppCompatActivity
     LinearLayoutManager layoutManager;
     ProgressBar progressBar;
 
-    RequestAdapter requestAdapter;
+    PaginationAdapter adapter;
+    private boolean isLoading = false;
+    private boolean isLastPage = false;
+
     ArrayList<DataRequest> dataRequests;
 
     int lastFirstVisiblePosition=0;
@@ -114,9 +123,35 @@ public class MainActivity extends AppCompatActivity
 
         recyclerRequest=(RecyclerView)findViewById(R.id.recycler_request);
         recyclerRequest.setHasFixedSize(true);
-        layoutManager=new LinearLayoutManager(this);
+        layoutManager=new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerRequest.setLayoutManager(layoutManager);
+        recyclerRequest.setItemAnimator(new DefaultItemAnimator());
 
+        adapter=new PaginationAdapter(this,this);
+        recyclerRequest.setAdapter(adapter);
+
+        recyclerRequest.addOnScrollListener(new PaginationScrollListener(layoutManager) {
+            @Override
+            protected void loadMoreItems() {
+                isLoading=true;
+                loadNextPage();
+            }
+
+            @Override
+            public int getTotalPageCount() {
+                return 0;
+            }
+
+            @Override
+            public boolean isLastPage() {
+                return isLastPage;
+            }
+
+            @Override
+            public boolean isLoading() {
+                return isLoading;
+            }
+        });
 
         getRequests();
         swipeRefreshLayout.setOnRefreshListener(()->getRequests());
@@ -126,6 +161,7 @@ public class MainActivity extends AppCompatActivity
         Call<Requestion> requestionCall=serverAPI.getRequestions(
                                         Functions.encodeToBase64(PreferencesBuffer.getToken(this)),
                                         generateDefaultRequestionAsk(1));
+
         requestionCall.enqueue(new Callback<Requestion>() {
             @Override
             public void onResponse(Call<Requestion> call, Response<Requestion> response) {
@@ -133,84 +169,81 @@ public class MainActivity extends AppCompatActivity
                     if (response.body().ok) {
                         if (response.body().token) {
                             dataRequests = response.body().data;
-
+                            adapter.addAll(dataRequests);
                             stopProgress();
-                            fillRecycler();
                             swipeRefreshLayout.setRefreshing(false);
-                        } else
-                            Functions.restartToMainActivity();
-                    } else
-                        Functions.showToastErrorMessage(ctx);
+                            if(dataRequests.size()==Constants.paginationSize)
+                                adapter.addLoadingFooter();
+                            else
+                                isLastPage=true;
+                        } else Functions.restartToMainActivity();
+                    } else Functions.showToastErrorMessage(ctx);
                 } else
                     Functions.showToastErrorMessage(ctx);
 
+                swipeRefreshLayout.setRefreshing(false);
             }
-
             @Override
             public void onFailure(Call<Requestion> call, Throwable t) {
-                Functions.showToastErrorMessage(ctx);
+                stopProgress();
+                Toasty.error(ctx,Functions.fetchErrorMessage(t, ctx)).show();
+                swipeRefreshLayout.setRefreshing(false);
             }
         });
     }
 
-    private void stopProgress(){
-        progressBar.setVisibility(View.GONE);
-    }
 
-    private void fillRecycler() {
-        requestAdapter=new RequestAdapter(this,dataRequests,this);
-
-
-
-        if(dataRequests.size()==Constants.paginationSize)
-            requestAdapter.setLoadMoreListener(() -> recyclerRequest.post(() -> {
-                int index=dataRequests.size()+1;
-                loadMore(index);
-            }));
-
-        recyclerRequest.setAdapter(requestAdapter);
-    }
-
-    private void loadMore(int index) {
-        dataRequests.add(null);
-        requestAdapter.notifyItemInserted(dataRequests.size()-1);
+    private void loadNextPage(){
+        int index=dataRequests.size()+1;
         RequestionAsk requestionAsk=generateDefaultRequestionAsk(index);
         Call<Requestion> requestionCall=serverAPI.getRequestions(
-                                        Functions.encodeToBase64(PreferencesBuffer.getToken(this)),
-                                        requestionAsk);
+                Functions.encodeToBase64(PreferencesBuffer.getToken(this)),
+                requestionAsk);
         requestionCall.enqueue(new Callback<Requestion>() {
             @Override
             public void onResponse(Call<Requestion> call, Response<Requestion> response) {
-                if(response.isSuccessful()) {
+                if (response.isSuccessful()) {
                     if (response.body().ok) {
                         if (response.body().token) {
-                            dataRequests.remove(dataRequests.size() - 1);
-                            ArrayList<DataRequest> results = response.body().data;
-                            if (results.size() > 0) {
-                                dataRequests.addAll(results);
-                                requestAdapter.setMoreDataAvailable(true);
+                            adapter.removeLoadingFooter();
+                            isLoading = false;
 
-                                //fillRecycler();
-                                if (results.size() < Constants.paginationSize)
-                                    requestAdapter.setMoreDataAvailable(false);
-                            } else {
-                                requestAdapter.setMoreDataAvailable(false);
-                            }
-                            requestAdapter.notifyDataChanged();
-                            swipeRefreshLayout.setRefreshing(false);
-                        } else
-                            Functions.restartToMainActivity();
-                    } else
-                        Functions.showToastErrorMessage(ctx);
-                } else
-                    Functions.showToastErrorMessage(ctx);
+                            ArrayList<DataRequest> results = response.body().data;
+                            dataRequests.addAll(results);
+                            adapter.addAll(results);
+
+                            if (results.size() < Constants.paginationSize)
+                                isLastPage = true;
+                            else
+                                adapter.addLoadingFooter();
+                        } else Functions.restartToMainActivity();
+                    } else Functions.showToastErrorMessage(ctx);
+                }   else Functions.showToastErrorMessage(ctx);
             }
 
             @Override
             public void onFailure(Call<Requestion> call, Throwable t) {
-                Functions.showToastErrorMessage(ctx);
+                adapter.showRetry(true,Functions.fetchErrorMessage(t,ctx));
+                Toasty.error(ctx,Functions.fetchErrorMessage(t,ctx)).show();
             }
         });
+    }
+
+    /*private String fetchErrorMessage(Throwable throwable) {
+        String errorMsg = getResources().getString(R.string.operation_error);
+
+        if (!Functions.isOnline(this)) {
+            errorMsg = getResources().getString(R.string.internet_connection_error);
+        } else if (throwable instanceof TimeoutException) {
+            errorMsg = getResources().getString(R.string.internet_connection_error);
+        }
+
+        return errorMsg;
+    }*/
+
+
+    private void stopProgress(){
+        progressBar.setVisibility(View.GONE);
     }
 
     private RequestionAsk generateDefaultRequestionAsk(int start) {
@@ -356,5 +389,10 @@ public class MainActivity extends AppCompatActivity
         super.onPause();
         if(recyclerRequest!=null)
             lastFirstVisiblePosition=((LinearLayoutManager)recyclerRequest.getLayoutManager()).findFirstVisibleItemPosition();
+    }
+
+    @Override
+    public void retryPageLoad() {
+        loadNextPage();
     }
 }

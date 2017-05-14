@@ -23,6 +23,7 @@ import com.ds24.ds24android.utils.Functions;
 
 import java.util.ArrayList;
 
+import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -121,19 +122,15 @@ public class UpdatesFragment extends Fragment {
                     if(response.body().ok){
                         if(response.body().token)
                             fillContent(response.body().data);
-                        else
-                            Functions.restartToMainActivity();
-                    } else
-                        Functions.showToastErrorMessage(getContext());
-                } else
-                    Functions.showToastErrorMessage(getContext());
-
+                        else Functions.restartToMainActivity();
+                    } else Functions.showToastErrorMessage(getContext());
+                } else Functions.showToastErrorMessage(getContext());
             }
-
 
             @Override
             public void onFailure(Call<Updates> call, Throwable t) {
-                Functions.showToastErrorMessage(getContext());
+                Toasty.error(getContext(),Functions.fetchErrorMessage(t,getContext())).show();
+                swipeRefreshLayout.setRefreshing(false);
             }
         });
     }
