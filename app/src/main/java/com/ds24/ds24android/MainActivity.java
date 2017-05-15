@@ -116,6 +116,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void initUI(){
+
+
         progressBar=(ProgressBar)findViewById(R.id.progressBar);
         progressBar.setVisibility(View.VISIBLE);
 
@@ -127,8 +129,10 @@ public class MainActivity extends AppCompatActivity
         recyclerRequest.setLayoutManager(layoutManager);
         recyclerRequest.setItemAnimator(new DefaultItemAnimator());
 
-        adapter=new PaginationAdapter(this,this);
-        recyclerRequest.setAdapter(adapter);
+
+
+      //  recyclerRequest.setAdapter(null);
+
 
         recyclerRequest.addOnScrollListener(new PaginationScrollListener(layoutManager) {
             @Override
@@ -158,6 +162,10 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void getRequests() {
+        dataRequests=new ArrayList<>();
+        recyclerRequest.setAdapter(null);
+        adapter=new PaginationAdapter(this,this);
+        recyclerRequest.setAdapter(adapter);
         Call<Requestion> requestionCall=serverAPI.getRequestions(
                                         Functions.encodeToBase64(PreferencesBuffer.getToken(this)),
                                         generateDefaultRequestionAsk(1));
