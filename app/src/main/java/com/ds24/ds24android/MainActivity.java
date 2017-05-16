@@ -116,8 +116,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void initUI(){
-
-
         progressBar=(ProgressBar)findViewById(R.id.progressBar);
         progressBar.setVisibility(View.VISIBLE);
 
@@ -128,10 +126,6 @@ public class MainActivity extends AppCompatActivity
         layoutManager=new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerRequest.setLayoutManager(layoutManager);
         recyclerRequest.setItemAnimator(new DefaultItemAnimator());
-
-
-
-      //  recyclerRequest.setAdapter(null);
 
 
         recyclerRequest.addOnScrollListener(new PaginationScrollListener(layoutManager) {
@@ -180,8 +174,11 @@ public class MainActivity extends AppCompatActivity
                             adapter.addAll(dataRequests);
                             stopProgress();
                             swipeRefreshLayout.setRefreshing(false);
-                            if(dataRequests.size()==Constants.paginationSize)
+
+                            if(dataRequests.size()>=Constants.paginationSize) {
                                 adapter.addLoadingFooter();
+                                isLastPage = false;
+                            }
                             else
                                 isLastPage=true;
                         } else Functions.restartToMainActivity();
@@ -236,19 +233,6 @@ public class MainActivity extends AppCompatActivity
             }
         });
     }
-
-    /*private String fetchErrorMessage(Throwable throwable) {
-        String errorMsg = getResources().getString(R.string.operation_error);
-
-        if (!Functions.isOnline(this)) {
-            errorMsg = getResources().getString(R.string.internet_connection_error);
-        } else if (throwable instanceof TimeoutException) {
-            errorMsg = getResources().getString(R.string.internet_connection_error);
-        }
-
-        return errorMsg;
-    }*/
-
 
     private void stopProgress(){
         progressBar.setVisibility(View.GONE);

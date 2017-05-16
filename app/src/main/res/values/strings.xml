@@ -60,6 +60,7 @@
     <string name="internet_connection_error">Отсутствует подключение к серверу</string>
     <string name="tap_to_reload">Нажмите, чтобы повторить</string>
     <string name="cant_load">Не удалось загрузить</string>
+    <string name="yandex_api_key">2d4e4d36-a1f8-41a8-8d77-10f696fc10cf</string>
 
 
 </resources>

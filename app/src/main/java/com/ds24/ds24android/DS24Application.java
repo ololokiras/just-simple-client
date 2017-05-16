@@ -2,6 +2,8 @@ package com.ds24.ds24android;
 
 import android.app.Application;
 
+import com.yandex.metrica.YandexMetrica;
+
 /**
  * Created by well on 22.04.2017.
  */
@@ -15,7 +17,13 @@ public class DS24Application extends Application{
         super.onCreate();
         mInstance=this;
         filterInstance=new Filter();
+
+        YandexMetrica.activate(getApplicationContext(), getString(R.string.yandex_api_key));
+        // Отслеживание активности пользователей
+        YandexMetrica.enableActivityAutoTracking(this);
     }
+
+
 
     public static synchronized DS24Application getInstance(){
         return mInstance;
